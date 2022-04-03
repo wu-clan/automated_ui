@@ -1,0 +1,24 @@
+# 浏览器选选择
+browser: 'chrome'
+# 测试主入口
+main_path: 'http://www.baidu.com/'
+# 数据库配置
+mysql:
+  host: 'xxx'
+  port: 'xxx'
+  user: 'xxx'
+  password: 'xxx'
+  database: 'xxx'
+  charset: 'utf-8'
+# 邮件发送
+email:
+  host_server: 'smtp.ym.163.com'
+  port: '25'
+  user: 'xxx'
+  password: 'xxx'
+  send_to: ['xxx']
+# 测试报告展示
+test_report:
+  tester: 'wu'
+  description: '框架测试'
+

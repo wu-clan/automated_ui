@@ -6,7 +6,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # 测试用例路径
-PROJECT_NAME = sys.argv[1]
+PROJECT_NAME = sys.argv[1] if len(sys.argv) > 1 else 'auto'
 TESTCASE_PATH = os.path.join(BASE_DIR, 'test_case', PROJECT_NAME)
 
 # 获取日志路径

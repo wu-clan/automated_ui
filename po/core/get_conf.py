@@ -6,7 +6,7 @@ import os
 
 from po.common.doyaml import DoYaml
 
-__read_config = DoYaml(os.path.join(os.getcwd(), 'core'), 'config.yaml').read_yaml()
+__read_config = DoYaml(os.path.join(os.getcwd(), 'core'), 'config.yaml').read_yaml
 
 # 浏览器使用
 BROWSER = __read_config['browser']

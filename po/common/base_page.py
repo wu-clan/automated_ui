@@ -1,8 +1,5 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-"""
-代码描述： base page 封装一些公共方法
-"""
 import os
 
 from selenium.common.exceptions import NoSuchElementException
@@ -18,6 +15,12 @@ from po.core import path_conf, get_conf
 class BasePage(object):
 
     def __init__(self, driver, url=get_conf.MAIN_PATH):
+        """
+        初始化驱动信息和测试主入口
+
+        :param driver:
+        :param url:
+        """
         self.driver = driver
         self.base_url = url
 
@@ -33,6 +36,7 @@ class BasePage(object):
     def open(self):
         """
         打开程序主入口
+
         :return:
         """
         self._open(self.base_url)
@@ -76,9 +80,10 @@ class BasePage(object):
         else:
             return self.driver.find_elements(*locator)
 
-    def iselement_exist(self, *locator, timeout=5, poll_frequency=0.5) -> bool:
+    def is_element_exist(self, *locator, timeout=5, poll_frequency=0.5) -> bool:
         """
         显示等待元素判断元素是否存在于dom
+
         :param timeout: 显示等待超时时长
         :param poll_frequency: 检测的间隔步长，默认为0.5s
         :return:
@@ -93,6 +98,7 @@ class BasePage(object):
     def find_element(self, selector: list):
         """
         定位元素
+
         :param selector: 定位方式及定位表达式, example: ['id', 'kw']
         :return:
         """
@@ -128,6 +134,7 @@ class BasePage(object):
     def find_elements(self, selector: list):
         """
         定位多个元素
+
         :param selector: 定位方式及定位表达式, example: ['id', 'kw']
         :return:
         """
@@ -163,6 +170,7 @@ class BasePage(object):
     def element_wait(self, selector: list):
         """
         显示等待元素判断元素是否存在于dom
+
         :param selector:
         :return:
         """
@@ -195,6 +203,7 @@ class BasePage(object):
     def send_keys(self, input_box: list, value):
         """
         输入框操作
+
         :param input_box: 输入框定位
         :param value: 输入值
         :return:
@@ -213,6 +222,7 @@ class BasePage(object):
     def jscript(self, js):
         """
         执行js脚本
+
         :param js: js代码
         :return:
         """
@@ -268,6 +278,7 @@ class BasePage(object):
     def alert_accept(self):
         """
         确认错误警告弹窗
+
         :return:
         """
         try:
@@ -282,6 +293,7 @@ class BasePage(object):
     def alert_dismiss(self):
         """
         取消警告框
+
         :return:
         """
         try:
@@ -295,6 +307,7 @@ class BasePage(object):
     def forward(self):
         """
         浏览器前进操作
+
         :return:
         """
         try:
@@ -308,6 +321,7 @@ class BasePage(object):
     def back(self):
         """
         浏览器后退操作
+
         :return:
         """
         try:
@@ -321,6 +335,7 @@ class BasePage(object):
     def F5(self):
         """
         刷新界面
+
         :return:
         """
         try:
@@ -334,6 +349,7 @@ class BasePage(object):
     def set_window_size(self, width, height):
         """
         设置浏览器窗口大小
+
         :param width:
         :param height:
         :return:
@@ -349,6 +365,7 @@ class BasePage(object):
     def get_window_size(self):
         """
         获取当前窗口大小
+
         :return:
         """
         try:
@@ -363,6 +380,7 @@ class BasePage(object):
     def max_window(self):
         """
         最大化窗口
+
         :return:
         """
         try:
@@ -397,6 +415,7 @@ class BasePage(object):
     def get_attribute(self, selector, element: str):
         """
         获取指定元素value
+
         :param selector: 元素定位, 建议使用上文已封装的定位方式
         :param element: 指定元素
         :return:
@@ -413,6 +432,7 @@ class BasePage(object):
     def get_title(self):
         """
         获取链接title
+
         :return:
         """
         title = self.driver.title
@@ -422,6 +442,7 @@ class BasePage(object):
     def click(self, selector: list):
         """
         点击元素
+
         :param selector: 元素定位, example: ['id', 'kw']
         :return: 
         """
@@ -441,6 +462,7 @@ class BasePage(object):
     def right_click(self, selector):
         """
         右击元素
+
         :param selector: 元素定位, example: ['id', 'kw']
         :return:
         """
@@ -455,6 +477,7 @@ class BasePage(object):
     def double_click(self, selector):
         """
         双击元素
+
         :param selector: 元素定位, example: ['id', 'kw']
         :return:
         """
@@ -470,6 +493,7 @@ class BasePage(object):
     def click_page_xy(self, x, y, click_left=True, click_number=1):
         """
         点击页面指定 X,Y 坐标
+
         :param x: x坐标
         :param y: y坐标
         :param click_left: 鼠标左键触发,如果为False,则默认鼠标右键点击
@@ -504,6 +528,7 @@ class BasePage(object):
     def hover(self, selector):
         """
         鼠标悬停操作
+
         :param selector:
         :return:
         """
@@ -519,6 +544,7 @@ class BasePage(object):
     def current_window_handle(self):
         """
         获取当前页面句柄
+
         :return:
         """
         try:
@@ -533,6 +559,7 @@ class BasePage(object):
     def current_window_handles(self):
         """
         获取所有窗口句柄
+
         :return:
         """
         try:
@@ -563,6 +590,7 @@ class BasePage(object):
     def drag(self, start, end):  # frame,
         """
         页面元素拖动至目标元素
+
         :param start: 起步元素定位
         :param end: 目标元素定位
         """

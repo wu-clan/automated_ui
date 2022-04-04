@@ -67,6 +67,7 @@ automated_unittest
 谷歌驱动为例:
 
 1. 进入谷歌浏览器,点击右上角的三个点,查看谷歌浏览器版本
+
 ![](md_files/img_google.png)
 
 
@@ -111,16 +112,21 @@ pip install -r requirements.txt
 ## 🖼️ 效果图
 
 pycharm控制台:
+
 ![](md_files/img_4.png)
 
 日志效果：
+
 ![](md_files/img_5.png)
 
 HTML 测试报告（可在 packages/TestRunner 目录下自行修改样式等...）
+
 ![](md_files/img_6.png)
 
 自动截取错误截图
+
 ![](md_files/img_7.png)
 
 BeautifulReport 测试报告（原生第三方）
+
 ![](md_files/img_3.png)

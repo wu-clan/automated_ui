@@ -156,21 +156,42 @@ class KeyboardKeys(object):
     }
 
     def __key_down(self, key_name):
-        # 按下按键
+        """
+        按下按键
+
+        :param key_name:
+        :return:
+        """
         win32api.keybd_event(self.__VK_CODE[key_name], 0, 0, 0)
 
     def __key_up(self, key_name):
-        # 释放按键
+        """
+        释放按键
+
+        :param key_name:
+        :return:
+        """
         win32api.keybd_event(self.__VK_CODE[key_name], 0, win32con.KEYEVENTF_KEYUP, 0)
 
     def click_one_key(self, key):
-        # 模拟单个按键
+        """
+        模拟按下单个按键
+
+        :param key: __VK_CODE
+        :return:
+        """
         self.__key_down(key)
         self.__key_up(key)
         log.info('keyboard clicked：%s' % key)
 
     def click_two_keys(self, key1, key2):
-        # 模拟两个组合键
+        """
+        模拟按下两个组合键
+
+        :param key1: __VK_CODE
+        :param key2: __VK_CODE
+        :return:
+        """
         self.__key_down(key1)
         self.__key_down(key2)
         self.__key_up(key2)

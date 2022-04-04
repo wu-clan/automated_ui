@@ -4,7 +4,10 @@
 """
 Code description：自动化测试所有
 """
-from po.common.test_report import *
+import unittest
+
+from po.common.test_report import add_tc, run_tc, test_report
+from po.core import path_conf
 from po.utils.send_email import send_mail
 
 if __name__ == '__main__':
@@ -12,8 +15,8 @@ if __name__ == '__main__':
 		"""
 		BeautifulReport 测试报告
 		"""
-		# suite = addTc()
-		# runTc(suite)
+		# suite = add_tc()
+		# run_tc(suite)
 
 		"""
 		HTMLTestRunner 测试报告
@@ -22,7 +25,7 @@ if __name__ == '__main__':
 		test_suite = unittest.defaultTestLoader.discover(path_conf.TESTCASE_PATH)
 		runner.run(test_suite)
 	except Exception as e:
-		print('运行出错！！！please check！！！')
+		print('startup failed ！！！\n\t error info: {}'.format(e))
 		raise e
 	else:
 		send_mail.send()

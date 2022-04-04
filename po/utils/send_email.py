@@ -12,24 +12,28 @@ from po.core import get_conf, path_conf
 
 class SendMail:
     def __init__(self, address=None):
-        """接收邮件的人：list or tuple"""
+        """
+        邮件接收地址
+
+        :param address: list or str
+        """
         if address is None:
-            self.sendTo = get_conf.EMAIL_SEND_TO
+            self.send_to = get_conf.EMAIL_SEND_TO
         else:
-            self.sendTo = address
+            self.send_to = address
 
     @staticmethod
     def __get_report():
-        """获取最新测试报告"""
+        """ 获取最新测试报告 """
         dirs = os.listdir(path_conf.REPORT_PATH)
         dirs.sort()
         # 取最后一个
         report = dirs[-1]
-        print('The report name is: {0}'.format(report))
+        # print('The report name is: {0}'.format(report))
         return report
 
     def __take_messages(self):
-        """生成邮件的内容，和html报告附件"""
+        """ 生成邮件的内容，和html报告附件 """
         new_report = self.__get_report()
         self.msg = MIMEMultipart()
 
@@ -50,19 +54,19 @@ class SendMail:
         self.msg.attach(att1)
 
     def send(self):
-        """发送邮件"""
+        """ 发送邮件 """
         self.__take_messages()
         self.msg['from'] = get_conf.EMAIL_USER
         try:
             smtp = smtplib.SMTP(get_conf.EMAIL_HOST_SERVER, get_conf.EMAIL_PORT)
             smtp.login(get_conf.EMAIL_USER, get_conf.EMAIL_PASSWORD)
-            smtp.sendmail(self.msg['from'], self.sendTo, self.msg.as_string())
+            smtp.sendmail(self.msg['from'], self.send_to, self.msg.as_string())
         except Exception as e:
-            log.error('发送邮件失败 \n {}', e)
+            log.error('Error: Failed to send email \n {}', e)
             raise
         else:
             smtp.close()
-            print("发送邮件成功")
+            log.success("Success: Send test report email successfully")
 
 
 send_mail = SendMail()

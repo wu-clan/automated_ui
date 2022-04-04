@@ -1,32 +1,48 @@
-2022-03-28 02:16:28.741 | INFO     | po.common.driver:chrome_driver:57 - chrome_driver : chrome driver use success !
-2022-03-28 02:16:29.096 | INFO     | po.common.base_page:open:39 - http://www.baidu.com/ > > Loading succeeded!
-2022-03-28 02:16:29.097 | INFO     | po.common.myunit:setUp:38 - Start executing the test case: test_baidu_e
-2022-03-28 02:16:39.102 | ERROR    | po.common.base_page:find_element:121 - Error: not found element：xxxxxxx 
+2022-04-04 21:37:22.656 | INFO     | po.common.driver:__chrome_driver:62 - __chrome_driver : chrome driver use success !
+2022-04-04 21:37:23.015 | INFO     | po.common.base_page:open:43 - http://www.baidu.com/ > > Loading succeeded!
+2022-04-04 21:37:23.016 | INFO     | po.common.myunit:setUp:37 - ----------------- Running case: test_baidu_e -----------------
+2022-04-04 21:37:33.051 | ERROR    | po.common.base_page:find_element:127 - Error: not found element：xxxxxxx 
  Message: no such element: Unable to locate element: {"method":"css selector","selector":"[name="xxxxxxx"]"}
   (Session info: chrome=99.0.4844.84)
 
-2022-03-28 02:16:39.232 | INFO     | po.common.base_page:open:39 - http://www.baidu.com/ > > Loading succeeded!
-2022-03-28 02:16:39.232 | INFO     | po.common.myunit:setUp:38 - Start executing the test case: test_baidu_f
-2022-03-28 02:16:49.894 | INFO     | po.common.base_page:open:39 - http://www.baidu.com/ > > Loading succeeded!
-2022-03-28 02:16:49.894 | INFO     | po.common.myunit:setUp:38 - Start executing the test case: test_baidu_s
-2022-03-28 02:16:49.970 | INFO     | po.common.base_page:send_keys:211 - Success: input value 测试
-2022-03-28 02:16:50.011 | INFO     | po.common.base_page:click:439 - Success: click the element ['id', 'su']
-2022-03-28 02:16:50.109 | INFO     | po.common.base_page:save_screenshot:262 - Success: [test_pass.png] screenshot was saved successfully
-2022-03-28 02:16:52.220 | INFO     | po.common.test_report:runTc:73 - Test report generated successfully [baidu_2022-03-28 02_16_27.html]
-2022-03-28 02:16:55.320 | ERROR    | po.common.send_email:send:63 - 发送邮件失败 Connection unexpectedly closed
-2022-03-28 02:21:51.486 | INFO     | po.common.test_report:test_report:37 - Test report generated successfully [D:\gitproject\automated_ui\po\report\test_report\baidu_2022-03-28 02_21_51.html]
-2022-03-28 02:21:52.767 | INFO     | po.common.driver:chrome_driver:57 - chrome_driver : chrome driver use success !
-2022-03-28 02:21:53.115 | INFO     | po.common.base_page:open:39 - http://www.baidu.com/ > > Loading succeeded!
-2022-03-28 02:21:53.116 | INFO     | po.common.myunit:setUp:38 - Start executing the test case: test_baidu_e
-2022-03-28 02:22:03.136 | ERROR    | po.common.base_page:find_element:121 - Error: not found element：xxxxxxx 
+2022-04-04 21:37:33.051 | INFO     | po.common.myunit:tearDown:40 - end 
+
+2022-04-04 21:37:33.163 | INFO     | po.common.base_page:open:43 - http://www.baidu.com/ > > Loading succeeded!
+2022-04-04 21:37:33.163 | INFO     | po.common.myunit:setUp:37 - ----------------- Running case: test_baidu_f -----------------
+2022-04-04 21:37:43.819 | INFO     | po.common.base_page:save_screenshot:263 - Success: [test_fail.png] screenshot was saved successfully
+2022-04-04 21:37:43.819 | INFO     | po.common.myunit:tearDown:40 - end 
+
+2022-04-04 21:37:43.933 | INFO     | po.common.base_page:open:43 - http://www.baidu.com/ > > Loading succeeded!
+2022-04-04 21:37:43.934 | INFO     | po.common.myunit:setUp:37 - ----------------- Running case: test_baidu_s -----------------
+2022-04-04 21:37:44.008 | INFO     | po.common.base_page:send_keys:220 - Success: input value 测试
+2022-04-04 21:37:44.045 | INFO     | po.common.base_page:click:460 - Success: click the element ['id', 'su']
+2022-04-04 21:37:44.159 | INFO     | po.common.base_page:save_screenshot:272 - Success: [test_pass.png] screenshot was saved successfully
+2022-04-04 21:37:44.159 | INFO     | po.common.myunit:tearDown:40 - end 
+
+2022-04-04 21:37:46.248 | INFO     | po.common.test_report:run_tc:72 - Test report generated successfully [baidu_2022-04-04 21_37_21.html]
+2022-04-04 21:37:49.307 | ERROR    | po.utils.send_email:send:65 - Error: Failed to send email 
+ Connection unexpectedly closed
+2022-04-04 21:39:30.034 | INFO     | po.common.test_report:test_report:35 - Test report generated successfully [D:\gitproject\automated_ui\po\report\test_report\baidu_2022-04-04 21_39_30.html]
+2022-04-04 21:39:31.185 | INFO     | po.common.driver:__chrome_driver:62 - __chrome_driver : chrome driver use success !
+2022-04-04 21:39:31.536 | INFO     | po.common.base_page:open:43 - http://www.baidu.com/ > > Loading succeeded!
+2022-04-04 21:39:31.537 | INFO     | po.common.myunit:setUp:37 - ----------------- Running case: test_baidu_e -----------------
+2022-04-04 21:39:41.583 | ERROR    | po.common.base_page:find_element:127 - Error: not found element：xxxxxxx 
  Message: no such element: Unable to locate element: {"method":"css selector","selector":"[name="xxxxxxx"]"}
   (Session info: chrome=99.0.4844.84)
 
-2022-03-28 02:22:03.367 | INFO     | po.common.base_page:open:39 - http://www.baidu.com/ > > Loading succeeded!
-2022-03-28 02:22:03.368 | INFO     | po.common.myunit:setUp:38 - Start executing the test case: test_baidu_f
-2022-03-28 02:22:14.190 | INFO     | po.common.base_page:open:39 - http://www.baidu.com/ > > Loading succeeded!
-2022-03-28 02:22:14.190 | INFO     | po.common.myunit:setUp:38 - Start executing the test case: test_baidu_s
-2022-03-28 02:22:14.270 | INFO     | po.common.base_page:send_keys:211 - Success: input value 测试
-2022-03-28 02:22:14.308 | INFO     | po.common.base_page:click:439 - Success: click the element ['id', 'su']
-2022-03-28 02:22:14.407 | INFO     | po.common.base_page:save_screenshot:262 - Success: [test_pass.png] screenshot was saved successfully
-2022-03-28 02:22:19.626 | ERROR    | po.common.send_email:send:63 - 发送邮件失败 Connection unexpectedly closed
+2022-04-04 21:39:41.584 | INFO     | po.common.myunit:tearDown:40 - end 
+
+2022-04-04 21:39:41.794 | INFO     | po.common.base_page:open:43 - http://www.baidu.com/ > > Loading succeeded!
+2022-04-04 21:39:41.794 | INFO     | po.common.myunit:setUp:37 - ----------------- Running case: test_baidu_f -----------------
+2022-04-04 21:39:52.434 | INFO     | po.common.base_page:save_screenshot:263 - Success: [test_fail.png] screenshot was saved successfully
+2022-04-04 21:39:52.434 | INFO     | po.common.myunit:tearDown:40 - end 
+
+2022-04-04 21:39:52.645 | INFO     | po.common.base_page:open:43 - http://www.baidu.com/ > > Loading succeeded!
+2022-04-04 21:39:52.645 | INFO     | po.common.myunit:setUp:37 - ----------------- Running case: test_baidu_s -----------------
+2022-04-04 21:39:52.718 | INFO     | po.common.base_page:send_keys:220 - Success: input value 测试
+2022-04-04 21:39:52.751 | INFO     | po.common.base_page:click:460 - Success: click the element ['id', 'su']
+2022-04-04 21:39:52.853 | INFO     | po.common.base_page:save_screenshot:272 - Success: [test_pass.png] screenshot was saved successfully
+2022-04-04 21:39:52.853 | INFO     | po.common.myunit:tearDown:40 - end 
+
+2022-04-04 21:39:58.009 | ERROR    | po.utils.send_email:send:65 - Error: Failed to send email 
+ Connection unexpectedly closed

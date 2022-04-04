@@ -7164,7 +7164,7 @@ body.skin-3 {
         {
             "className": "BaiDu",
             "methodName": "test_baidu_e",
-            "description": "错误用例",
+            "description": " 错误用例 ",
             "spendTime": "10.4 s",
             "status": "错误",
             "log": [
@@ -7173,10 +7173,10 @@ body.skin-3 {
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\unittest\\case.py\", line 60, in testPartExecutor\n    yield\n",
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\unittest\\case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n",
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\unittest\\case.py\", line 633, in _callTestMethod\n    method()\n",
-                "  File \"D:\\gitproject\\automated_ui\\po\\test_case\\baidu\\test_baidu.py\", line 35, in test_baidu_e\n    self.send_keys(['name', 'xxxxxxx'], '测试')\n",
-                "  File \"D:\\gitproject\\automated_ui\\po\\common\\base_page.py\", line 203, in send_keys\n    _input = self.find_element(input_box)\n",
-                "  File \"D:\\gitproject\\automated_ui\\po\\common\\base_page.py\", line 122, in find_element\n    raise e\n",
-                "  File \"D:\\gitproject\\automated_ui\\po\\common\\base_page.py\", line 107, in find_element\n    element = self.driver.find_element_by_name(value)\n",
+                "  File \"D:\\gitproject\\automated_ui\\po\\test_case\\baidu\\test_baidu.py\", line 37, in test_baidu_e\n    self.send_keys(['name', 'xxxxxxx'], '测试')\n",
+                "  File \"D:\\gitproject\\automated_ui\\po\\common\\base_page.py\", line 212, in send_keys\n    _input = self.find_element(input_box)\n",
+                "  File \"D:\\gitproject\\automated_ui\\po\\common\\base_page.py\", line 128, in find_element\n    raise e\n",
+                "  File \"D:\\gitproject\\automated_ui\\po\\common\\base_page.py\", line 113, in find_element\n    element = self.driver.find_element_by_name(value)\n",
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\site-packages\\selenium\\webdriver\\remote\\webdriver.py\", line 496, in find_element_by_name\n    return self.find_element(by=By.NAME, value=name)\n",
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\site-packages\\selenium\\webdriver\\remote\\webdriver.py\", line 976, in find_element\n    return self.execute(Command.FIND_ELEMENT, {\n",
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\site-packages\\selenium\\webdriver\\remote\\webdriver.py\", line 321, in execute\n    self.error_handler.check_response(response)\n",
@@ -7187,26 +7187,30 @@ body.skin-3 {
         {
             "className": "BaiDu",
             "methodName": "test_baidu_f",
-            "description": "失败用例",
-            "spendTime": "10.7 s",
+            "description": " 失败用例 ",
+            "spendTime": "10.8 s",
             "status": "错误",
             "log": [
-                "",
+                "screenshot: test_fail.png\n",
+                "Traceback (most recent call last):\n",
+                "  File \"D:\\gitproject\\automated_ui\\po\\test_case\\baidu\\test_baidu.py\", line 24, in test_baidu_f\n    result = self.is_element_exist(ele)\n",
+                "  File \"D:\\gitproject\\automated_ui\\po\\common\\base_page.py\", line 92, in is_element_exist\n    WebDriverWait(self.driver, timeout, poll_frequency).until(ec.presence_of_element_located(*locator))\n",
+                "  File \"C:\\ProgramData\\Anaconda3\\lib\\site-packages\\selenium\\webdriver\\support\\wait.py\", line 80, in until\n    raise TimeoutException(message, screen, stacktrace)\n",
+                "selenium.common.exceptions.TimeoutException: Message: \n\n",
+                "\nDuring handling of the above exception, another exception occurred:\n\n",
                 "Traceback (most recent call last):\n",
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\unittest\\case.py\", line 60, in testPartExecutor\n    yield\n",
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\unittest\\case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n",
                 "  File \"C:\\ProgramData\\Anaconda3\\lib\\unittest\\case.py\", line 633, in _callTestMethod\n    method()\n",
-                "  File \"D:\\gitproject\\automated_ui\\po\\test_case\\baidu\\test_baidu.py\", line 23, in test_baidu_f\n    result = self.iselement_exist(ele)\n",
-                "  File \"D:\\gitproject\\automated_ui\\po\\common\\base_page.py\", line 87, in iselement_exist\n    WebDriverWait(self.driver, timeout, poll_frequency).until(ec.presence_of_element_located(*locator))\n",
-                "  File \"C:\\ProgramData\\Anaconda3\\lib\\site-packages\\selenium\\webdriver\\support\\wait.py\", line 80, in until\n    raise TimeoutException(message, screen, stacktrace)\n",
-                "selenium.common.exceptions.TimeoutException: Message: \n\n"
+                "  File \"D:\\gitproject\\automated_ui\\po\\test_case\\baidu\\test_baidu.py\", line 27, in test_baidu_f\n    self.assertTrue(result, '未找到元素 %s' % ele)\n",
+                "NameError: name 'result' is not defined\n"
             ]
         },
         {
             "className": "BaiDu",
             "methodName": "test_baidu_s",
-            "description": "成功用例",
-            "spendTime": "0.329 s",
+            "description": " 成功用例 ",
+            "spendTime": "0.338 s",
             "status": "成功",
             "log": [
                 "screenshot: test_pass.png",
@@ -7216,7 +7220,7 @@ body.skin-3 {
         {
             "className": "BaiDu",
             "methodName": "test_baidu_skip",
-            "description": "跳过用例",
+            "description": " 跳过用例 ",
             "spendTime": "0.0 s",
             "status": "跳过",
             "log": [
@@ -7227,7 +7231,7 @@ body.skin-3 {
     "testName": "baidu_testreport",
     "testAll": 4,
     "testFail": 2,
-    "beginTime": "2022-03-28 02:16:27",
+    "beginTime": "2022-04-04 21:37:21",
     "totalTime": "25s",
     "testSkip": 1,
     "testError": 0

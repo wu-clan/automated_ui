@@ -1,9 +1,5 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-"""
-代码说明:读取date文件 excel.xlsx 的值
-"""
-
 import os
 
 import xlrd
@@ -12,38 +8,55 @@ from po.core import path_conf
 from po.common.log import log
 
 
-class ReadExcel(object):
+class DoExcel(object):
 
-    def __init__(self, fileName='_template.xlsx', sheetName='elementsInfo'):
+    def __init__(self, filename='...', sheet='Sheet1'):
         """
-        初始化类
-        :param fileName:文件名
-        :param sheetName:表名
+        初始化 excel 文件
+
+        :param filename:文件名
+        :param sheet:表名
+        :return:
         """
         try:
-            self.dataFile = os.path.join(path_conf.EXCEL_PATH, fileName)
-            self.workBook = xlrd.open_workbook(self.dataFile)
-            self.sheetName = self.workBook.sheet_by_name(sheetName)
+            self.file = os.path.join(path_conf.EXCEL_PATH, filename)
+            self.workbook = xlrd.open_workbook(self.file)
+            self.sheet = self.workbook.sheet_by_name(sheet)
         except Exception as e:
-            log.error('Error: init class ReadExcel \n %s' % e)
+            log.error('Error: init excel file \n %s' % e)
             raise e
 
-    def readExcel(self, row_num, col_num):
+    @property
+    def read_excel(self):
         """
-        读取excel文件
-        :param row_num:行数
-        :param col_num:列数
-        :return: 返回值
+        读取 excel 文件
+
+        :return:
         """
+        data = None
         try:
-            value = self.sheetName.cell(row_num, col_num).value
-        except Exception:
+            # 获取总行,列数
+            rows = self.sheet.nrows
+            cols = self.sheet.ncols
+            if rows > 1:
+                # 获取表格中的第二列数据, 应为变量名
+                keys = self.sheet.col_values(1, 1)
+                values = self.sheet.col_values(2, 1)
+                # 获取文档剩下所有内容
+                for _ in range(1, cols):
+                    # key, value组合为字典
+                    data = dict(zip(keys, values))
+            else:
+                log.warning('数据表格没有数据!')
+                return data
+        except Exception as e:
             log.error('Error: read value from excel file')
-            raise
+            raise e
         else:
-            return value
+            return data
 
 
 if __name__ == '__main__':
-    cellValue = ReadExcel().readExcel(1, 3)
-    print(cellValue)
+    de = DoExcel('baidu_elements.xlsx').read_excel
+    print(de)
+    print(de['baidu_button'])

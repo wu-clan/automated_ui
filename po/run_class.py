@@ -18,7 +18,7 @@ class RunTcClass(object):
 	def test_class(self, testCaseClass):
 		"""
 		测试用例类
-		:param testCaseClass: 类名，引入哪些类，将其替换为类名即可
+		:param testCaseClass: 测试用例类
 		"""
 		suites = self.suites.loadTestsFromTestCase(testCaseClass)
 		self.suit.addTest(suites)
@@ -26,7 +26,8 @@ class RunTcClass(object):
 
 if __name__ == '__main__':
 	suite_tc = RunTcClass()
-	# from 引入类，在这里（）内直接填入即可
+
+	# 执行测试类
 	suite_tc.test_class(BaiDu)
 
 	# 1.不输出到测试报告

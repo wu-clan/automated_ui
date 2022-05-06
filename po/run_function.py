@@ -1,33 +1,30 @@
 #! user/bin/python
 # -*- coding: utf-8 -*-
-"""
-Code description：可单独的测试
-"""
-
 import unittest
 
 from po.common.test_report import test_report
 from po.test_case.baidu.test_baidu import BaiDu
 
 
-class RunTcScript(object):
+class RunTcFunc(object):
 
 	def __init__(self):
 		self.suite = unittest.TestSuite()
 
-	def test_function(self, testClass, testcase):
+	def test_function(self, testCaseClass, testcase_func):
 		"""
-		执行指定测试用例
-		:param testClass: 测试用例类名
-		:param testcase: 测试用例方法名
+		测试用例函数
+		:param testCaseClass: 测试用例类名
+		:param testcase_func: 测试用例函数名
 		:return:
 		"""
-		self.suite.addTest(testClass(testcase))
+		self.suite.addTest(testCaseClass(testcase_func))
 
 
 if __name__ == '__main__':
-	# suite
-	suite_tc = RunTcScript()
+	suite_tc = RunTcFunc()
+
+	# 执行测试用例方法
 	suite_tc.test_function(BaiDu, 'test_baidu_s')
 
 	# 1.不输出到测试报告

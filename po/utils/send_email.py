@@ -35,32 +35,32 @@ class SendMail:
     def __take_messages(self):
         """ 生成邮件的内容，和html报告附件 """
         new_report = self.__get_report()
-        self.msg = MIMEMultipart()
+        self.__msg = MIMEMultipart()
 
-        self.msg['Subject'] = path_conf.PROJECT_NAME + '自动测试报告'  # 主题
-        self.msg['date'] = time.strftime('%a, %d %b %Y %H:%M:%S %z')
+        self.__msg['Subject'] = path_conf.PROJECT_NAME + '自动测试报告'  # 主题
+        self.__msg['date'] = time.strftime('%a, %d %b %Y %H:%M:%S %z')
 
         with open(os.path.join(path_conf.REPORT_PATH, new_report), 'rb') as f:
             mail_body = f.read()
         # html = MIMEText(mail_body, _subtype='html', _charset='utf-8')
         # self.msg.attach(html)
         html = MIMEText('HTML 测试报告', _charset='utf-8')
-        self.msg.attach(html)
+        self.__msg.attach(html)
 
         # html附件
         att1 = MIMEText(mail_body, 'base64', 'utf-8')
         att1["Content-Type"] = 'application/octet-stream'
         att1["Content-Disposition"] = 'attachment; filename="TestReport.html"'  # 这里的filename可以任意写，写什么名字，邮件中显示什么名字
-        self.msg.attach(att1)
+        self.__msg.attach(att1)
 
     def send(self):
         """ 发送邮件 """
         self.__take_messages()
-        self.msg['from'] = get_conf.EMAIL_USER
+        self.__msg['from'] = get_conf.EMAIL_USER
         try:
             smtp = smtplib.SMTP(get_conf.EMAIL_HOST_SERVER, get_conf.EMAIL_PORT)
             smtp.login(get_conf.EMAIL_USER, get_conf.EMAIL_PASSWORD)
-            smtp.sendmail(self.msg['from'], self.send_to, self.msg.as_string())
+            smtp.sendmail(self.__msg['from'], self.send_to, self.__msg.as_string())
         except Exception as e:
             log.error('Error: Failed to send email \n {}', e)
             raise

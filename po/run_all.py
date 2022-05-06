@@ -1,9 +1,5 @@
 #! user/bin/python
 # -*- coding: utf-8 -*-
-
-"""
-Code description：自动化测试所有
-"""
 import unittest
 
 from po.common.test_report import add_tc, run_tc, test_report

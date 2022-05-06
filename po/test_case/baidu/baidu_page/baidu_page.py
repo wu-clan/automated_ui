@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from po.common.base_page import BasePage
-from po.common.doexcel import DoExcel
-from po.common.doyaml import DoYaml
+from po.common.do_excel import DoExcel
+from po.common.do_yaml import DoYaml
 from po.common.myunit import MyUnitTest
 
 

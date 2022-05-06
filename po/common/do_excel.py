@@ -41,7 +41,7 @@ class DoExcel(object):
             if rows > 1:
                 # 获取表格中的第二列数据, 应为变量名
                 keys = self.sheet.col_values(1, 1)
-                values = self.sheet.col_values(2, 1)
+                values = self.sheet.col_values(3, 1)
                 # 获取文档剩下所有内容
                 for _ in range(1, cols):
                     # key, value组合为字典

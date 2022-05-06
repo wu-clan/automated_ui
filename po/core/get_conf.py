@@ -4,7 +4,7 @@
 # 读取配置
 import os
 
-from po.common.doyaml import DoYaml
+from po.common.do_yaml import DoYaml
 
 __read_config = DoYaml(os.path.join(os.getcwd(), 'core'), 'config.yaml').read_yaml
 

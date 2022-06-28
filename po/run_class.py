@@ -15,12 +15,12 @@ class RunTcClass(object):
 		self.suites = unittest.TestLoader()
 		self.suit = unittest.TestSuite()
 
-	def test_class(self, testCaseClass):
+	def test_class(self, testcase_class):
 		"""
 		测试用例类
-		:param testCaseClass: 测试用例类
+		:param testcase_class: 测试用例类
 		"""
-		suites = self.suites.loadTestsFromTestCase(testCaseClass)
+		suites = self.suites.loadTestsFromTestCase(testcase_class)
 		self.suit.addTest(suites)
 
 

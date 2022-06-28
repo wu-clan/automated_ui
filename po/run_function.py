@@ -11,14 +11,14 @@ class RunTcFunc(object):
 	def __init__(self):
 		self.suite = unittest.TestSuite()
 
-	def test_function(self, testCaseClass, testcase_func):
+	def test_function(self, testcase_class, testcase_func):
 		"""
 		测试用例函数
-		:param testCaseClass: 测试用例类名
+		:param testcase_class: 测试用例类名
 		:param testcase_func: 测试用例函数名
 		:return:
 		"""
-		self.suite.addTest(testCaseClass(testcase_func))
+		self.suite.addTest(testcase_class(testcase_func))
 
 
 if __name__ == '__main__':

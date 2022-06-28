@@ -16,7 +16,8 @@ email:
   port: '25'
   user: 'xxx'
   password: 'xxx'
-  send_to: ['xxx']
+  send_to: 'xxx'  # if more, use: [str]
+  is_ssl: true
 # 测试报告展示
 test_report:
   tester: 'wu'

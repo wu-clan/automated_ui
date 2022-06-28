@@ -19,12 +19,12 @@ def test_report():
     """
     if not os.path.exists(path_conf.REPORT_PATH):
         os.makedirs(path_conf.REPORT_PATH)
-    fileName = path_conf.REPORT_PATH + '\\' + path_conf.PROJECT_NAME + '_' + time.strftime(
+    filename = path_conf.REPORT_PATH + '\\' + path_conf.PROJECT_NAME + '_' + time.strftime(
         '%Y-%m-%d %H_%M_%S') + '.html'
     try:
-        fp = open(fileName, 'wb')
+        fp = open(filename, 'wb')
     except Exception as e:
-        log.exception('[%s] open fail, Unable to generate test report' % fileName)
+        log.exception('[%s] open fail, Unable to generate test report' % filename)
         raise e
     else:
         runner = HTMLTestRunner(stream=fp,
@@ -32,8 +32,8 @@ def test_report():
                                 verbosity=2,
                                 tester=get_conf.REPORT_TESTER,
                                 description=get_conf.REPORT_DESCRIPTION)
-        log.info('Test report generated successfully [%s]' % fileName)
-        return runner, fp, fileName
+        log.info('Test report generated successfully [%s]' % filename)
+        return runner, fp, filename
 
 
 def add_tc(tc_path=path_conf.TESTCASE_PATH, rule='test*.py'):
@@ -57,11 +57,11 @@ def run_tc(discover):
     """
     if not os.path.exists(path_conf.REPORT_PATH):
         os.makedirs(path_conf.REPORT_PATH)
-    fileName = path_conf.PROJECT_NAME + '_' + time.strftime('%Y-%m-%d %H_%M_%S') + '.html'
+    filename = path_conf.PROJECT_NAME + '_' + time.strftime('%Y-%m-%d %H_%M_%S') + '.html'
     try:
         result = BeautifulReport(discover)
         # theme四种用法：theme_default theme_cyan theme_candy theme_memories
-        result.report(filename=fileName,
+        result.report(filename=filename,
                       description=path_conf.PROJECT_NAME + '_testreport',
                       report_dir=path_conf.REPORT_PATH,
                       theme='theme_cyan')
@@ -69,5 +69,5 @@ def run_tc(discover):
         log.exception('Failed to generate test report')
         raise e
     else:
-        log.info('Test report generated successfully [%s]' % fileName)
-        return fileName
+        log.info('Test report generated successfully [%s]' % filename)
+        return filename

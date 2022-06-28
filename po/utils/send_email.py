@@ -1,5 +1,3 @@
-#!/usr/local/bin/python3
-# -*- coding: utf-8 -*-
 import os
 import smtplib
 import time
@@ -7,69 +5,48 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from po.common.log import log
-from po.core import get_conf, path_conf
+from po.core import get_conf
+from po.core.path_conf import REPORT_PATH
 
 
 class SendMail:
-    def __init__(self, address=None):
-        """
-        邮件接收地址
 
-        :param address: list or str
-        """
-        if address is None:
-            self.send_to = get_conf.EMAIL_SEND_TO
-        else:
-            self.send_to = address
+    def __init__(self, filename: str):
+        self.filename = filename
 
-    @staticmethod
-    def __get_report():
-        """ 获取最新测试报告 """
-        dirs = os.listdir(path_conf.REPORT_PATH)
-        dirs.sort()
-        # 取最后一个
-        report = dirs[-1]
-        # print('The report name is: {0}'.format(report))
-        return report
+    def take_messages(self):
+        """生成邮件的内容，和html报告附件"""
+        msg = MIMEMultipart()
+        msg['Subject'] = get_conf.REPORT_DESCRIPTION
+        msg['date'] = time.strftime('%a, %d %b %Y %H:%M:%S %z')
 
-    def __take_messages(self):
-        """ 生成邮件的内容，和html报告附件 """
-        new_report = self.__get_report()
-        self.__msg = MIMEMultipart()
+        # 读取要发送的附件
+        with open(os.path.join(REPORT_PATH, self.filename), 'rb') as f:
+            mail_body = str(f.read())
 
-        self.__msg['Subject'] = path_conf.PROJECT_NAME + '自动测试报告'  # 主题
-        self.__msg['date'] = time.strftime('%a, %d %b %Y %H:%M:%S %z')
+        # 邮件正文
+        html = MIMEText(mail_body, _subtype='html', _charset='utf-8')
+        msg.attach(html)
 
-        with open(os.path.join(path_conf.REPORT_PATH, new_report), 'rb') as f:
-            mail_body = f.read()
-        # html = MIMEText(mail_body, _subtype='html', _charset='utf-8')
-        # self.msg.attach(html)
-        html = MIMEText('HTML 测试报告', _charset='utf-8')
-        self.__msg.attach(html)
-
-        # html附件
+        # 邮件附件
         att1 = MIMEText(mail_body, 'base64', 'utf-8')
         att1["Content-Type"] = 'application/octet-stream'
-        att1["Content-Disposition"] = 'attachment; filename="TestReport.html"'  # 这里的filename可以任意写，写什么名字，邮件中显示什么名字
-        self.__msg.attach(att1)
+        att1["Content-Disposition"] = f'attachment; filename={self.filename}'
+        msg.attach(att1)
+
+        return msg
 
     def send(self):
-        """ 发送邮件 """
-        self.__take_messages()
-        self.__msg['from'] = get_conf.EMAIL_USER
+        """发送邮件"""
         try:
-            smtp = smtplib.SMTP(get_conf.EMAIL_HOST_SERVER, get_conf.EMAIL_PORT)
+            if get_conf.EMAIL_SSL:
+                smtp = smtplib.SMTP_SSL(host=get_conf.EMAIL_SERVER, port=get_conf.EMAIL_PORT)
+            else:
+                smtp = smtplib.SMTP(host=get_conf.EMAIL_SERVER, port=get_conf.EMAIL_PORT)
             smtp.login(get_conf.EMAIL_USER, get_conf.EMAIL_PASSWORD)
-            smtp.sendmail(self.__msg['from'], self.send_to, self.__msg.as_string())
+            smtp.sendmail(get_conf.EMAIL_USER, get_conf.EMAIL_SEND_TO, self.take_messages().as_string())
+            smtp.quit()
         except Exception as e:
-            log.error('Error: Failed to send email \n {}', e)
-            raise
+            log.error(f'测试报告邮件发送失败: \n {e}')
         else:
-            smtp.close()
-            log.success("Success: Send test report email successfully")
-
-
-send_mail = SendMail()
-
-if __name__ == '__main__':
-    send_mail.send()
+            log.success("测试报告邮件发送成功")

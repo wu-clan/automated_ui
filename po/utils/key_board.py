@@ -155,7 +155,7 @@ class KeyboardKeys(object):
         '`': 0xC0
     }
 
-    def __key_down(self, key_name):
+    def key_down(self, key_name):
         """
         按下按键
 
@@ -164,7 +164,7 @@ class KeyboardKeys(object):
         """
         win32api.keybd_event(self.__VK_CODE[key_name], 0, 0, 0)
 
-    def __key_up(self, key_name):
+    def key_up(self, key_name):
         """
         释放按键
 
@@ -180,8 +180,8 @@ class KeyboardKeys(object):
         :param key: __VK_CODE
         :return:
         """
-        self.__key_down(key)
-        self.__key_up(key)
+        self.key_down(key)
+        self.key_up(key)
         log.info('keyboard clicked：%s' % key)
 
     def click_two_keys(self, key1, key2):
@@ -192,10 +192,10 @@ class KeyboardKeys(object):
         :param key2: __VK_CODE
         :return:
         """
-        self.__key_down(key1)
-        self.__key_down(key2)
-        self.__key_up(key2)
-        self.__key_up(key1)
+        self.key_down(key1)
+        self.key_down(key2)
+        self.key_up(key2)
+        self.key_up(key1)
         log.info('keyboard clicked：%s1 + %s2' % key1, key2)
 
 

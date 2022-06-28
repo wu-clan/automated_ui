@@ -23,11 +23,12 @@ DB_DATABASE = __read_config['mysql']['database']
 DB_CHARSET = __read_config['mysql']['charset']
 
 # 邮件配置
-EMAIL_HOST_SERVER = __read_config['email']['host_server']
+EMAIL_SERVER = __read_config['email']['host_server']
 EMAIL_PORT = __read_config['email']['port']
 EMAIL_USER = __read_config['email']['user']
 EMAIL_PASSWORD = __read_config['email']['password']
 EMAIL_SEND_TO = __read_config['email']['send_to']
+EMAIL_SSL = __read_config['email']['is_ssl']
 
 # 测试报告配置
 REPORT_TESTER = __read_config['test_report']['tester']

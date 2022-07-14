@@ -29,6 +29,7 @@ class DB:
     def execute(self, sql):
         """
         数据库操作执行
+
         :return:
         """
         try:
@@ -43,6 +44,7 @@ class DB:
     def close(self):
         """
         关闭数据库
+
         :return:
         """
         self.cursor.close()

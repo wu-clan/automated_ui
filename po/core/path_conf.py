@@ -1,5 +1,5 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
-
 import os
 import sys
 
@@ -20,6 +20,7 @@ YAML_PATH = os.path.join(BASE_DIR, 'data', 'test_data')
 
 # 错误截图
 FAIL_IMG_PATH = os.path.join(BASE_DIR, 'report', 'image', 'fail')
+
 # 成功截图
 PASS_IMG_PATH = os.path.join(BASE_DIR, 'report', 'image', 'pass')
 

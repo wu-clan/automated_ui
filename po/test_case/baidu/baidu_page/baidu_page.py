@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-
 from po.common.base_page import BasePage
 from po.common.do_excel import DoExcel
 from po.common.do_yaml import DoYaml

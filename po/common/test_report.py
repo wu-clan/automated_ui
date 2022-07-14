@@ -27,16 +27,17 @@ def test_report():
         log.exception('[%s] open fail, Unable to generate test report' % filename)
         raise e
     else:
-        runner = HTMLTestRunner(stream=fp,
-                                title=path_conf.PROJECT_NAME + '_testreport',
-                                verbosity=2,
-                                tester=get_conf.REPORT_TESTER,
-                                description=get_conf.REPORT_DESCRIPTION)
-        log.info('Test report generated successfully [%s]' % filename)
+        runner = HTMLTestRunner(
+            stream=fp,
+            title=path_conf.PROJECT_NAME + '_testreport',
+            verbosity=2,
+            tester=get_conf.REPORT_TESTER,
+            description=get_conf.REPORT_DESCRIPTION
+        )
         return runner, fp, filename
 
 
-def add_tc(tc_path=path_conf.TESTCASE_PATH, rule='test*.py'):
+def add_tc(tc_path=path_conf.TESTCASE_PATH, rule='test_*.py'):
     """
     添加测试用例
 
@@ -61,10 +62,12 @@ def run_tc(discover):
     try:
         result = BeautifulReport(discover)
         # theme四种用法：theme_default theme_cyan theme_candy theme_memories
-        result.report(filename=filename,
-                      description=path_conf.PROJECT_NAME + '_testreport',
-                      report_dir=path_conf.REPORT_PATH,
-                      theme='theme_cyan')
+        result.report(
+            filename=filename,
+            description=path_conf.PROJECT_NAME + '_testreport',
+            report_dir=path_conf.REPORT_PATH,
+            theme='theme_cyan'
+        )
     except Exception as e:
         log.exception('Failed to generate test report')
         raise e

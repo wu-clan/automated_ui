@@ -25,7 +25,7 @@ class SendMail:
             mail_body = str(f.read())
 
         # 邮件正文
-        html = MIMEText(mail_body, _subtype='html', _charset='utf-8')
+        html = MIMEText('<h1>自动化测试报告</h1>', _subtype='html', _charset='utf-8')
         msg.attach(html)
 
         # 邮件附件
@@ -47,6 +47,6 @@ class SendMail:
             smtp.sendmail(get_conf.EMAIL_USER, get_conf.EMAIL_SEND_TO, self.take_messages().as_string())
             smtp.quit()
         except Exception as e:
-            log.error(f'测试报告邮件发送失败: \n {e}')
+            log.error(f'Test report email send failed: \n {e}')
         else:
-            log.success("测试报告邮件发送成功")
+            log.success("Test report email send success")

@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-# 读取配置
 import os
 
 from po.common.do_yaml import DoYaml

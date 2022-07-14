@@ -32,7 +32,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from .HTMLTestRunner import HTMLTestRunner
 from .HTMLTestRunner import SMTP
 
-
 __author__ = "bugmaster"
 
 __version__ = "1.0.3"

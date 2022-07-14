@@ -10,7 +10,7 @@ from po.test_case.baidu.baidu_page.baidu_page import BaiDuPage
 class BaiDu(BaiDuPage):
     """测试百度"""
 
-    def test_baidu_s(self):
+    def test_baidu_p(self):
         """ 成功用例 """
         self.send_keys(self.source, '测试')
         self.click_btn()
@@ -27,7 +27,7 @@ class BaiDu(BaiDuPage):
             self.assertTrue(result, '未找到元素 %s' % ele)
 
     @unittest.skip('强制跳过')
-    def test_baidu_skip(self):
+    def test_baidu_s(self):
         """ 跳过用例 """
         self.send_keys(self.source, '测试')
         self.click_btn()

@@ -16,7 +16,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 HTML_DIR = os.path.join(BASE_DIR, "html")
 INIT_FILE = os.path.join(BASE_DIR, "__init__.py")
@@ -30,7 +29,6 @@ with open(INIT_FILE, 'rb') as f:
     version = str(ast.literal_eval(_version_re.search(
         f.read().decode('utf-8')).group(1)))
 
-
 # ---------------------------
 # Define the HTML template directory
 # --------------------------
@@ -38,8 +36,8 @@ env = Environment(loader=FileSystemLoader(HTML_DIR))
 
 
 class OutputRedirector(object):
-    """ 
-    Wrapper to redirect stdout or stderr 
+    """
+    Wrapper to redirect stdout or stderr
     """
 
     def __init__(self, fp):
@@ -149,7 +147,6 @@ class TemplateMixing(object):
 </tr>
 """  # variables: (tid, Class, style, desc, status)
 
-
     IMG_TMPL = r"""
 <a  onfocus='this.blur();' href="javacript:void(0);" onclick="show_img(this)">show</a>
 <div align="center" class="screenshots"  style="display:none">
@@ -158,6 +155,7 @@ class TemplateMixing(object):
     <div class="imgyuan"></div>
 </div>
 """
+
 
 # -------------------- The end of the Template class -------------------
 
@@ -175,7 +173,7 @@ class _TestResult(TestResult):
         self.stderr0 = None
         self.success_count = 0
         self.failure_count = 0
-        self.error_count = 0        
+        self.error_count = 0
         self.skip_count = 0
         self.verbosity = verbosity
         self.rerun = rerun
@@ -327,7 +325,7 @@ class HTMLTestRunner(TemplateMixing):
             self.description = ""
         else:
             self.description = description
-        
+
         if tester is None:
             self.tester = self.DEFAULT_TESTER
         else:
@@ -403,7 +401,7 @@ class HTMLTestRunner(TemplateMixing):
         heading = self._generate_heading(report_attrs)
         report = self._generate_report(result)
         chart = self._generate_chart(result)
-        
+
         html_content = template.render(
             title=saxutils.escape(self.title),
             generator=generator,
@@ -560,6 +558,7 @@ class SMTP(object):
     """
     Mail function based on SMTP protocol
     """
+
     def __init__(self, user, password, host, port=None):
         self.user = user
         self.password = password
@@ -574,12 +573,12 @@ class SMTP(object):
             subject = 'Unit Test Report'
         if contents is None:
             contents = env.get_template('mail.html').render(
-                mail_pass=str(RunResult.passed), 
+                mail_pass=str(RunResult.passed),
                 mail_fail=str(RunResult.failed),
                 mail_error=str(RunResult.errors),
                 mail_skip=str(RunResult.skiped)
             )
-        
+
         msg = MIMEMultipart()
         msg['Subject'] = Header(subject, 'utf-8')
         msg['From'] = self.user

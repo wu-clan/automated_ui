@@ -1,7 +1,7 @@
 # 浏览器选选择
 browser: 'chrome'
 # 测试主入口
-main_path: 'http://www.baidu.com/'
+main_path: 'https://www.baidu.com/'
 # 数据库配置
 mysql:
   host: 'xxx'
@@ -12,11 +12,11 @@ mysql:
   charset: 'utf-8'
 # 邮件发送
 email:
-  host_server: 'smtp.ym.163.com'
-  port: '25'
-  user: 'xxx'
-  password: 'xxx'
-  send_to: 'xxx'  # if more, use: [str]
+  host_server: 'smtp.163.com'
+  port: '465'
+  user: 'xxxxxxxx@163.com'
+  password: 'xxxxxxxxxx'
+  send_to: 'xxxxxxxx'  # if more, use: [str]
   is_ssl: true
 # 测试报告展示
 test_report:

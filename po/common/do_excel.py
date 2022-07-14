@@ -47,7 +47,7 @@ class DoExcel(object):
                     # key, value组合为字典
                     data = dict(zip(keys, values))
             else:
-                log.warning('数据表格没有数据!')
+                log.warning('Data table has no data!')
                 return data
         except Exception as e:
             log.error('Error: read value from excel file')

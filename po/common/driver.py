@@ -1,38 +1,30 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import sys
+import logging
+import os
 
+import urllib3  # noqa
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.microsoft import IEDriverManager, EdgeChromiumDriverManager
 
 from po.common.log import log
 
 
-class WebDriver(object):
+class WebDriver:
+    # webdriver-manager 配置: https://github.com/SergeyPirogov/webdriver_manager
+    os.environ['WDM_LOG'] = str(logging.NOTSET)
+    os.environ['WDM_SSL_VERIFY'] = '0'
+    urllib3.disable_warnings()
 
-    def __init__(self, driver=None):
+    def __init__(self, webdriver_path='../webdriver'):
         """
         初始化驱动
 
-        :param driver:
+        :param webdriver_path: 浏览器驱动存放位置
         """
-        self.__driver = driver
-
-    @property
-    def __firefox_driver(self):
-        """
-        Firefox driver
-
-        :return:
-        """
-        try:
-            self.__driver = webdriver.Firefox()
-            self.__driver.maximize_window()
-        except Exception as e:
-            log.exception('FireFox Driver need to add environment PATH. please download!')
-            raise e
-        else:
-            log.info('%s : Firefox driver use success !' % (sys._getframe().f_code.co_name))
-            return self.__driver
+        self.__path = webdriver_path
 
     @property
     def __chrome_driver(self):
@@ -46,21 +38,55 @@ class WebDriver(object):
             chrome_options = webdriver.ChromeOptions()
             # 不打开浏览器页面
             # chrome_options.add_argument('headless')
-            # 关闭显示：Chrome 正在受自动测试软件的控制 配置。
+            # 关闭显示：Chrome 正在受自动测试软件的控制配置
             chrome_options.add_experimental_option("excludeSwitches", ['enable-automation'])
             # 关闭提示保存密码的弹框。
-            prefs = {"": ""}
-            prefs["credentials_enable_service"] = False
-            prefs["profile.password_manager_enabled"] = False
+            prefs = {"credentials_enable_service": False, "profile.password_manager_enabled": False}
             chrome_options.add_experimental_option("prefs", prefs)
-            self.__driver = webdriver.Chrome(options=chrome_options)
-            self.__driver.maximize_window()
+            # 忽略日志
+            chrome_options.add_experimental_option("excludeSwitches", ['enable-automation', 'enable-logging'])
+            driver = webdriver.Chrome(ChromeDriverManager(path=self.__path).install(), options=chrome_options)
+            driver.maximize_window()
         except Exception as e:
-            log.exception('Chrome Driver need to add environment PATH. please download!!')
+            print('Error calling google chrome')
             raise e
         else:
-            log.info('%s : chrome driver use success !' % (sys._getframe().f_code.co_name))
-            return self.__driver
+            log.info('Chrome driver use success !')
+            return driver
+
+    @property
+    def __edge_driver(self):
+        """
+        edge driver
+
+        :return:
+        """
+        try:
+            driver = webdriver.Edge(EdgeChromiumDriverManager(path=self.__path).install())
+            driver.maximize_window()
+        except Exception as e:
+            print('Error calling edge browser')
+            raise e
+        else:
+            log.info('Edge driver use success !')
+            return driver
+
+    @property
+    def __firefox_driver(self):
+        """
+        Firefox driver
+
+        :return:
+        """
+        try:
+            driver = webdriver.Firefox(executable_path=GeckoDriverManager(path=self.__path).install())
+            driver.maximize_window()
+        except Exception as e:
+            print('Error calling firefox browser')
+            raise e
+        else:
+            log.info('Firefox driver use success !')
+            return driver
 
     @property
     def __ie_driver(self):
@@ -70,14 +96,14 @@ class WebDriver(object):
         :return:
         """
         try:
-            self.__driver = webdriver.Ie()
-            self.__driver.maximize_window()
+            driver = webdriver.Ie(IEDriverManager(path=self.__path).install())
+            driver.maximize_window()
         except Exception as e:
-            log.exception('IE Driver need to add environment PATH. please download!!')
+            log.exception('CALL IE BROWSER ERROR')
             raise e
         else:
-            log.info('%s : IE driver use success !' % (sys._getframe().f_code.co_name))
-            return self.__driver
+            log.info('IE driver use success !')
+            return driver
 
     def select_browser(self, browser='chrome'):
         """
@@ -94,14 +120,9 @@ class WebDriver(object):
             return self.__ie_driver
         else:
             raise ValueError(
-                'Error: browser startup error,please check, only these："firefox", "ff", "chrome", "Chrome", "ie", "IE" of one')
+                'Error: wrong browser selection, please check, only these：'
+                '"firefox / Firefox", "chrome / Chrome", "ie / IE" of one'
+            )
 
 
 web_driver = WebDriver()
-
-__all__ = [
-    'web_driver'
-]
-
-if __name__ == '__main__':
-    print(web_driver.select_browser())

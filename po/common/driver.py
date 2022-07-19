@@ -48,7 +48,7 @@ class WebDriver:
             driver = webdriver.Chrome(ChromeDriverManager(path=self.__path).install(), options=chrome_options)
             driver.maximize_window()
         except Exception as e:
-            print('Error calling google chrome')
+            log.error('Error calling google chrome')
             raise e
         else:
             log.info('Chrome driver use success !')
@@ -65,7 +65,7 @@ class WebDriver:
             driver = webdriver.Edge(EdgeChromiumDriverManager(path=self.__path).install())
             driver.maximize_window()
         except Exception as e:
-            print('Error calling edge browser')
+            log.error('Error calling edge browser')
             raise e
         else:
             log.info('Edge driver use success !')
@@ -82,7 +82,7 @@ class WebDriver:
             driver = webdriver.Firefox(executable_path=GeckoDriverManager(path=self.__path).install())
             driver.maximize_window()
         except Exception as e:
-            print('Error calling firefox browser')
+            log.error('Error calling firefox browser')
             raise e
         else:
             log.info('Firefox driver use success !')
@@ -99,7 +99,7 @@ class WebDriver:
             driver = webdriver.Ie(IEDriverManager(path=self.__path).install())
             driver.maximize_window()
         except Exception as e:
-            log.exception('CALL IE BROWSER ERROR')
+            log.error('Error calling ie browser')
             raise e
         else:
             log.info('IE driver use success !')
@@ -112,16 +112,17 @@ class WebDriver:
         :param browser:
         :return:
         """
-        if browser == "firefox" or browser == "Firefox":
-            return self.__firefox_driver
-        elif browser == "chrome" or browser == "Chrome":
+        if browser.lower() == "chrome":
             return self.__chrome_driver
-        elif browser == "ie" or browser == "IE":
+        elif browser.lower() == 'edge':
+            return self.__edge_driver
+        elif browser.lower() == "firefox":
+            return self.__firefox_driver
+        elif browser.lower() == "ie":
             return self.__ie_driver
         else:
             raise ValueError(
-                'Error: wrong browser selection, please check, only these：'
-                '"firefox / Firefox", "chrome / Chrome", "ie / IE" of one'
+                'Error: wrong browser selection, please check, only allow one of: chrome, firefox, edge, ie'
             )
 
 

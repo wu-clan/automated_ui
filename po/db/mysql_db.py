@@ -23,7 +23,7 @@ class DB:
                 charset=get_conf.DB_CHARSET,
             ).connection()
         except BaseException as e:
-            log.error(f'Error: database connection failed \n {e}')
+            log.error(f'❌ database connection failed {e}')
         self.cursor = self.conn.cursor()
 
     def execute(self, sql):
@@ -37,7 +37,7 @@ class DB:
             self.conn.commit()
         except Exception as e:
             self.conn.rollback()
-            log.error(f'Error: execute {sql} fail \n {e}')
+            log.error(f'❌ execute {sql} failed {e}')
         else:
             self.close()
 

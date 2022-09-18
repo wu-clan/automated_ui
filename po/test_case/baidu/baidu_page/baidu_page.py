@@ -1,21 +1,24 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+import os
+
 from po.common.base_page import BasePage
 from po.common.do_excel import DoExcel
 from po.common.do_yaml import DoYaml
-from po.common.myunit import MyUnitTest
+from po.common.myunit import Unit
+from po.core.path_conf import DATA_PATH
 
 
-class BaiDuPage(MyUnitTest, BasePage):
+class BaiDuPage(Unit, BasePage):
     """
     存放元素 or 公共操作
-    切记: MyUnitTest 必须放在首位继承,这尤为重要
+    切记: Unit 必须放在首位继承, 这尤为重要
     """
 
     # 获取文件中的定位元素
     # 返回为 {'key': 'element'} 形式
-    excel_data = DoExcel(filename='baidu_elements.xlsx').read_excel
-    yaml_data = DoYaml(filename='universal_elements.yaml').read_yaml
+    excel_data = DoExcel('baidu_elements.xlsx').read_excel
+    yaml_data = DoYaml('global_elements.yaml', depend=False).read_yaml
 
     # 定义定位元素
     # 搜索框

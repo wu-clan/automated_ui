@@ -31,7 +31,7 @@ class BasePage(object):
             self.driver.implicitly_wait(10)
         except Exception as e:
             log.exception(e)
-            raise ValueError('%s Address access error, Please check！' % url)
+            raise ValueError('❌ %s Address access error, Please check！' % url)
 
     def open(self):
         """
@@ -57,7 +57,7 @@ class BasePage(object):
             # 显示等待查找元素
             WebDriverWait(self.driver, timeout, poll_frequency).until(ec.visibility_of_element_located(locator))
         except NoSuchElementException as e:
-            log.error('Error: find element timeout in %ss \n %s', timeout, e)
+            log.error('❌ find element timeout in %ss: %s', timeout, e)
             raise e
         else:
             return self.driver.find_element(*locator)
@@ -75,7 +75,7 @@ class BasePage(object):
         try:
             WebDriverWait(self.driver, timeout, poll_frequency).until(ec.visibility_of_element_located(locator))
         except NoSuchElementException as e:
-            log.error('Error: find element timeout in %ss \n %s', timeout, e)
+            log.error('❌ find element timeout in %ss: %s', timeout, e)
             raise e
         else:
             return self.driver.find_elements(*locator)
@@ -90,7 +90,7 @@ class BasePage(object):
         """
         try:
             WebDriverWait(self.driver, timeout, poll_frequency).until(ec.presence_of_element_located(*locator))
-        except NoSuchElementException:
+        except Exception:  # noqa
             return False
         else:
             return True
@@ -124,12 +124,12 @@ class BasePage(object):
                 elif by == 'xpath':
                     element = self.driver.find_element_by_xpath(value)
             except NoSuchElementException as e:
-                log.error("Error: not found element：{} \n {}".format(value, e))
+                log.error("❌ {}: {}".format(value, e.msg))
                 raise e
             else:
                 return element
         else:
-            raise ValueError('by error, only these "id, name, class, tag, link, plink, css, xpath" of one')
+            raise ValueError('❌ by error, only these "id, name, class, tag, link, plink, css, xpath" of one')
 
     def find_elements(self, selector: list):
         """
@@ -160,12 +160,12 @@ class BasePage(object):
                 elif by == 'xpath':
                     element = self.driver.find_elements_by_xpath(value)
             except NoSuchElementException as e:
-                log.error("Error: not found element：{} \n {}".format(value, e))
+                log.error("❌ {}: {}".format(value, e.msg))
                 raise e
             else:
                 return element
         else:
-            raise ValueError('by error, only these "id, name, class, tag, link, plink, css, xpath" of one')
+            raise ValueError('❌ by error, only these "id, name, class, tag, link, plink, css, xpath" of one')
 
     def element_wait(self, selector: list):
         """
@@ -177,7 +177,7 @@ class BasePage(object):
         by = selector[0]
         value = selector[1]
         if by in ['id', 'name', 'class', 'link_text', 'css', 'xpath']:
-            messages = 'Error: element {0} not find ：in{1}S.'.format(selector, 5)
+            messages = '❌ element {0} not find in{1}S.'.format(selector, 5)
             try:
                 if by == "id":
                     WebDriverWait(self.driver, 5, 1).until(ec.presence_of_element_located((By.ID, value)), messages)
@@ -198,7 +198,7 @@ class BasePage(object):
                 log.error(messages)
                 raise e
         else:
-            raise ValueError('by error, only these "id, name, class, link_text, css, xpath" of one')
+            raise ValueError('❌ by error, only these "id, name, class, link_text, css, xpath" of one')
 
     def send_keys(self, input_box: list, value):
         """
@@ -214,10 +214,10 @@ class BasePage(object):
             _input.clear()
             _input.send_keys(value)
         except Exception as e:
-            log.error('Error: input value: %s! \n %s' % value, e)
+            log.error('❌ input value: %s! %s' % value, e)
             raise e
         else:
-            log.info('Success: input value %s' % value)
+            log.info('input value %s' % value)
 
     def jscript(self, js):
         """
@@ -229,10 +229,10 @@ class BasePage(object):
         try:
             self.driver.execute_script(js)
         except Exception as e:
-            log.error('Error: execute js-script %s \n %s' % js, e)
+            log.error('❌ execute js-script %s %s' % js, e)
             raise e
         else:
-            log.info('Success: execute js-script %s' % js)
+            log.info('execute js-script %s' % js)
 
     def save_screenshot(self, filename):
         """
@@ -256,24 +256,24 @@ class BasePage(object):
                 try:
                     self.driver.save_screenshot(os.path.join(path_conf.FAIL_IMG_PATH, filename))
                 except Exception as e:
-                    log.error('Error: save screenshot %s! \n %s' % filename, e)
+                    log.error('❌ save screenshot %s! %s' % filename, e)
                     raise e
                 else:
                     print('screenshot:', filename)  # 进行打印识别，为了触发保存图片到测试报告
-                    log.info('Success: [%s] screenshot was saved successfully' % filename)
+                    log.info('[%s] screenshot was saved successfully' % filename)
             elif 'pass' in list_value[0]:
                 try:
                     self.driver.save_screenshot(os.path.join(path_conf.PASS_IMG_PATH, filename))
                 except Exception as e:
-                    log.error('Error: save screenshot %s! \n %s' % filename, e)
+                    log.error('❌ save screenshot %s! %s' % filename, e)
                     raise e
                 else:
                     print('screenshot:', filename)
-                    log.info('Success: [%s] screenshot was saved successfully' % filename)
+                    log.info('[%s] screenshot was saved successfully' % filename)
             else:
-                log.error('Error: [%s] failed to save, "fail" or "pass" not in filename')
+                log.error('❌ [%s] failed to save, "fail" or "pass" not in filename')
         else:
-            log.error('Error: [%s] failed to save，please use ".png"' % filename)
+            log.error('❌ [%s] failed to save，please use ".png"' % filename)
 
     def alert_accept(self):
         """
@@ -285,10 +285,10 @@ class BasePage(object):
             alert = self.driver.switch_to.alert()
             alert.accept()  # 确认警告弹窗
         except Exception as e:
-            log.error('Error: confirm warning popup \n %s' % e)
+            log.error('❌ confirm warning popup %s' % e)
             raise e
         else:
-            log.info('Success: confirm warning popup')
+            log.info('confirm warning popup')
 
     def alert_dismiss(self):
         """
@@ -299,10 +299,10 @@ class BasePage(object):
         try:
             self.driver.switch_to.alert.dismiss()
         except Exception as e:
-            log.error('Error: cancel warning popup \n %s' % e)
+            log.error('❌ cancel warning popup %s' % e)
             raise e
         else:
-            log.info('Success: cancel warning popup')
+            log.info('cancel warning popup')
 
     def forward(self):
         """
@@ -313,10 +313,10 @@ class BasePage(object):
         try:
             self.driver.forward()
         except Exception as e:
-            log.error("Error: page click forward \n %s" % e)
+            log.error("❌ page click forward %s" % e)
             raise e
         else:
-            log.info("Success: page click forward")
+            log.info("page click forward")
 
     def back(self):
         """
@@ -327,10 +327,10 @@ class BasePage(object):
         try:
             self.driver.back()
         except Exception as e:
-            log.error('Error: page click back \n %s' % e)
+            log.error('❌ page click back %s' % e)
             raise e
         else:
-            log.info("Success: page click back")
+            log.info("page click back")
 
     def F5(self):
         """
@@ -341,10 +341,10 @@ class BasePage(object):
         try:
             self.driver.refresh()
         except Exception as e:
-            log.error('Error: refresh page \n %s' % e)
+            log.error('❌ refresh page %s' % e)
             raise e
         else:
-            log.info('Success: refresh page')
+            log.info('refresh page')
 
     def set_window_size(self, width, height):
         """
@@ -357,10 +357,10 @@ class BasePage(object):
         try:
             self.driver.set_window_size(width, height)
         except Exception as e:
-            log.error('Error: set current window size！\n %s' % e)
+            log.error('❌ set current window size！\n %s' % e)
             raise e
         else:
-            log.info('Success: set current window size %s x %s' % (width, height))
+            log.info('set current window size %s x %s' % (width, height))
 
     def get_window_size(self):
         """
@@ -371,10 +371,10 @@ class BasePage(object):
         try:
             size = self.driver.get_window_size
         except Exception as e:
-            log.error('Error: get the current window size \n %s' % e)
+            log.error('❌ get the current window size %s' % e)
             raise e
         else:
-            log.info('Success: The current window size is %s' % size)
+            log.info('The current window size is %s' % size)
             return size
 
     def max_window(self):
@@ -386,10 +386,10 @@ class BasePage(object):
         try:
             self.driver.maximize_window()
         except Exception as e:
-            log.error('Error: maximize the window！\n %s' % e)
+            log.error('❌ maximize the window！\n %s' % e)
             raise e
         else:
-            log.info('Success: maximize the window.')
+            log.info('maximize the window.')
 
     def get_attribute_customize(self, selector, gtr='textContent'):
         """
@@ -406,10 +406,10 @@ class BasePage(object):
         try:
             t = str(selector.get_attribute(gtr))
         except Exception as e:
-            log.error('Error: get_attribute %s text \n %s' % selector, e)
+            log.error('❌ get_attribute %s text %s' % selector, e)
             raise e
         else:
-            log.info('Success: get_attribute text %s' % t)
+            log.info('get_attribute text %s' % t)
             return t
 
     def get_attribute(self, selector, element: str):
@@ -423,10 +423,10 @@ class BasePage(object):
         try:
             t = selector.get_attribute(element)
         except Exception as e:
-            log.error('Error: get_attribute %s value \n %s' % element, e)
+            log.error('❌ get_attribute %s value %s' % element, e)
             raise e
         else:
-            log.info('Success: get_attribute value %s' % t)
+            log.info('get_attribute value %s' % t)
             return t
 
     def get_title(self):
@@ -436,7 +436,7 @@ class BasePage(object):
         :return:
         """
         title = self.driver.title
-        log.info('Success: the title of the url is %s' % title)
+        log.info('the title of the url is %s' % title)
         return title
 
     def click(self, selector: list):
@@ -444,7 +444,7 @@ class BasePage(object):
         点击元素
 
         :param selector: 元素定位, example: ['id', 'kw']
-        :return: 
+        :return:
         """
         try:
             self.find_element(selector).click()
@@ -452,12 +452,12 @@ class BasePage(object):
             display = self.element_wait(selector)
             if display:
                 self.find_element(selector).click()
-                log.info('Success: click the element %s' % selector)
+                log.info('click the element %s' % selector)
             else:
-                log.error(f'Error: click the element \n {e}')
+                log.error(f'❌ click the element {e}')
                 raise e
         else:
-            log.info('Success: click the element %s' % selector)
+            log.info('click the element %s' % selector)
 
     def right_click(self, selector):
         """
@@ -469,9 +469,9 @@ class BasePage(object):
         try:
             ele = self.find_element(selector)
             ActionChains(self.driver).context_click(ele).perform()
-            log.info('Success: right click element {}'.format(selector))
+            log.info('right click element {}'.format(selector))
         except Exception as e:
-            log.error('Error: right click element {}\n {}'.format(selector, e))
+            log.error('❌ right click element {}\n {}'.format(selector, e))
             raise e
 
     def double_click(self, selector):
@@ -485,10 +485,10 @@ class BasePage(object):
             ele = self.find_element(selector)
             ActionChains(self.driver).double_click(ele).perform()
         except Exception as e:
-            log.error('Error: double click element {} \n {}'.format(selector, e))
+            log.error('❌ double click element {} {}'.format(selector, e))
             raise e
         else:
-            log.info('Success: double click element')
+            log.info('double click element')
 
     def click_page_xy(self, x, y, click_left=True, click_number=1):
         """
@@ -503,26 +503,26 @@ class BasePage(object):
             try:
                 ActionChains(self.driver).move_by_offset(x, y).click().perform()
             except Exception as e:
-                log.error(f'Error: left mouse button clicked coordinate ({x},{y}) \n %s' % e)
+                log.error(f'❌ left mouse button clicked coordinate ({x},{y}) %s' % e)
                 raise e
             else:
-                log.info('Success: left mouse button clicked coordinate (%s,%s)' % (x, y))
+                log.info('left mouse button clicked coordinate (%s,%s)' % (x, y))
         elif click_left and click_number == 2:
             try:
                 ActionChains(self.driver).move_by_offset(x, y).double_click().perform()
             except Exception as e:
-                log.error(f'Error: left mouse button clicked coordinate ({x},{y}) \n %s' % e)
+                log.error(f'❌ left mouse button clicked coordinate ({x},{y}) %s' % e)
                 raise e
             else:
-                log.info('Success: left mouse button clicked coordinate (%s,%s)' % (x, y))
+                log.info('left mouse button clicked coordinate (%s,%s)' % (x, y))
         else:
             try:
                 ActionChains(self.driver).move_by_offset(x, y).context_click().perform()
             except Exception as e:
-                log.error(f'Error: right mouse button clicked coordinate ({x},{y}) \n %s' % e)
+                log.error(f'❌ right mouse button clicked coordinate ({x},{y}) %s' % e)
                 raise e
             else:
-                log.info('Success: right mouse button clicked coordinate (%s,%s)' % (x, y))
+                log.info('right mouse button clicked coordinate (%s,%s)' % (x, y))
         ActionChains(self.driver).move_by_offset(-x, -y).perform()  # 将鼠标位置恢复到移动前
 
     def hover(self, selector):
@@ -536,10 +536,10 @@ class BasePage(object):
             element = self.find_element(selector)
             ActionChains(self.driver).move_to_element(element).perform()
         except Exception as e:
-            log.error('Error: hover for element [%s] \n %s' % (selector, e))
+            log.error('❌ hover for element [%s] %s' % (selector, e))
             raise e
         else:
-            log.info('Success: hover for element [%s]' % selector)
+            log.info('hover for element [%s]' % selector)
 
     def current_window_handle(self):
         """
@@ -550,7 +550,7 @@ class BasePage(object):
         try:
             _handle = self.driver.current_window_handle
         except Exception as e:
-            log.error('Error: get current handle error \n %s' % e)
+            log.error('❌ get current handle error %s' % e)
             raise e
         else:
             log.info('Get the current handle [%s]' % _handle)
@@ -565,10 +565,10 @@ class BasePage(object):
         try:
             _handles = self.driver.window_handles
         except Exception as e:
-            log.error('Failed: get current all handles！\n %s' % e)
+            log.error('❌ get current all handles！\n %s' % e)
             raise e
         else:
-            log.info('Success: get current all handles %s' % _handles)
+            log.info('get current all handles %s' % _handles)
             return _handles
 
     # 切换至新窗口
@@ -582,9 +582,9 @@ class BasePage(object):
                 if flag == 3:
                     break
             self.driver.switch_to.window(all_handle[-1])
-            log.info('Success: jump new window，new window url is -> {}'.format(self.driver.current_url))
+            log.info('jump new window，new window url is -> {}'.format(self.driver.current_url))
         except Exception as e:
-            log.error('Error: jump email_to new window \n {}'.format(e))
+            log.error('❌ jump email_to new window {}'.format(e))
             raise e
 
     def drag(self, start, end):  # frame,
@@ -601,6 +601,6 @@ class BasePage(object):
             end = self.find_element(end)
             ActionChains(self.driver).drag_and_drop(start, end).perform()
         except Exception as e:
-            log.info('Error: drag element \n %s' % e)
+            log.info('❌ drag element %s' % e)
         else:
-            log.info('Success: drag element')
+            log.info('drag element')

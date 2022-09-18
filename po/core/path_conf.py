@@ -6,17 +6,19 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # 测试用例路径
-PROJECT_NAME = sys.argv[1] if len(sys.argv) > 1 else 'auto'
-TESTCASE_PATH = os.path.join(BASE_DIR, 'test_case', PROJECT_NAME)
+TESTCASE_PATH = os.path.join(BASE_DIR, 'test_case')
 
-# 获取日志路径
-LOG_PATH = os.path.join(BASE_DIR, 'report', 'log')
+# 日志路径
+LOG_PATH = os.path.join(BASE_DIR, 'log')
 
-# 获取excel数据路径
-EXCEL_PATH = os.path.join(BASE_DIR, 'data', 'test_data')
+# 测试数据路径
+DATA_PATH = os.path.join(BASE_DIR, 'data')
 
-# 获取yaml数据路径
-YAML_PATH = os.path.join(BASE_DIR, 'data', 'test_data')
+# excel数据路径
+EXCEL_DATA_PATH = os.path.join(DATA_PATH, 'test_data')
+
+# yaml数据路径
+YAML_DATA_PATH = os.path.join(DATA_PATH, 'test_data')
 
 # 错误截图
 FAIL_IMG_PATH = os.path.join(BASE_DIR, 'report', 'image', 'fail')
@@ -25,4 +27,4 @@ FAIL_IMG_PATH = os.path.join(BASE_DIR, 'report', 'image', 'fail')
 PASS_IMG_PATH = os.path.join(BASE_DIR, 'report', 'image', 'pass')
 
 # 测试报告配置
-REPORT_PATH = os.path.join(BASE_DIR, 'report', 'test_report')
+REPORT_PATH = os.path.join(BASE_DIR, 'report', 'html_report')

@@ -1,12 +1,11 @@
-import os
 import smtplib
 import time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from pathlib import Path
 
 from po.common.log import log
 from po.core import get_conf
-from po.core.path_conf import REPORT_PATH
 
 
 class SendMail:
@@ -19,20 +18,17 @@ class SendMail:
         msg = MIMEMultipart()
         msg['Subject'] = get_conf.REPORT_DESCRIPTION
         msg['date'] = time.strftime('%a, %d %b %Y %H:%M:%S %z')
-
-        # 读取要发送的附件
-        with open(os.path.join(REPORT_PATH, self.filename), 'rb') as f:
-            mail_body = str(f.read())
+        msg['From'] = get_conf.REPORT_TESTER
 
         # 邮件正文
         html = MIMEText('<h1>自动化测试报告</h1>', _subtype='html', _charset='utf-8')
         msg.attach(html)
 
         # 邮件附件
-        att1 = MIMEText(mail_body, 'base64', 'utf-8')
-        att1["Content-Type"] = 'application/octet-stream'
-        att1["Content-Disposition"] = f'attachment; filename={self.filename}'
-        msg.attach(att1)
+        att = MIMEText(str(open(self.filename, 'rb').read()), 'base64', 'utf-8')
+        att["Content-Type"] = 'application/octet-stream'
+        att.add_header('Content-Disposition', 'attachment', filename=f'{Path(self.filename).name}')
+        msg.attach(att)
 
         return msg
 
@@ -47,6 +43,6 @@ class SendMail:
             smtp.sendmail(get_conf.EMAIL_USER, get_conf.EMAIL_SEND_TO, self.take_messages().as_string())
             smtp.quit()
         except Exception as e:
-            log.error(f'Test report email send failed: \n {e}')
+            log.error(f'❌ Test report email send: {e}')
         else:
             log.success("Test report email send success")

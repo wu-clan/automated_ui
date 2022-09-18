@@ -1,76 +1,76 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import os
-import time
 import unittest
 
 from BeautifulReport import BeautifulReport
+from XTestRunner import HTMLTestRunner
 
-from po.core import path_conf, get_conf
 from po.common.log import log
-from po.packages.TestRunner import HTMLTestRunner
+from po.core import path_conf, get_conf
+from po.utils.time_control import get_current_time
 
 
-def test_report():
+def html_report():
     """
     HTMLTestRunner 实现的测试报告
 
     :return:
     """
-    if not os.path.exists(path_conf.REPORT_PATH):
-        os.makedirs(path_conf.REPORT_PATH)
-    filename = path_conf.REPORT_PATH + '\\' + path_conf.PROJECT_NAME + '_' + time.strftime(
-        '%Y-%m-%d %H_%M_%S') + '.html'
+
+    filename = os.path.join(path_conf.REPORT_PATH, get_conf.PROJECT + '_' + get_current_time() + '.html')
     try:
+        if not os.path.exists(path_conf.REPORT_PATH):
+            os.makedirs(path_conf.REPORT_PATH)
         fp = open(filename, 'wb')
     except Exception as e:
-        log.exception('[%s] open fail, Unable to generate test report' % filename)
+        log.error('❌ [%s] open fail, Unable to generate test report' % filename)
         raise e
     else:
         runner = HTMLTestRunner(
             stream=fp,
-            title=path_conf.PROJECT_NAME + '_testreport',
+            title=get_conf.PROJECT + '_testreport',
             verbosity=2,
             tester=get_conf.REPORT_TESTER,
-            description=get_conf.REPORT_DESCRIPTION
+            description=get_conf.REPORT_DESCRIPTION,
+            language='zh-CN'
         )
         return runner, fp, filename
 
 
-def add_tc(tc_path=path_conf.TESTCASE_PATH, rule='test_*.py'):
+def add_testcase(testcase_path=os.path.join(path_conf.TESTCASE_PATH, get_conf.PROJECT), rule='test_*.py'):
     """
     添加测试用例
 
-    :param tc_path: 测试用例存放路径
+    :param testcase_path: 测试用例存放路径
     :param rule: 匹配的测试用例文件
     :return:  测试套件
     """
-    discover = unittest.defaultTestLoader.discover(tc_path, rule)
+    discover = unittest.defaultTestLoader.discover(testcase_path, rule)
     return discover
 
 
-def run_tc(discover):
+def btf_report(discover):
     """
-    BeautifulReport模块实现测试报告
+    BeautifulReport 实现测试报告
 
     :param discover: 测试套件
     :return:
     """
-    if not os.path.exists(path_conf.REPORT_PATH):
-        os.makedirs(path_conf.REPORT_PATH)
-    filename = path_conf.PROJECT_NAME + '_' + time.strftime('%Y-%m-%d %H_%M_%S') + '.html'
+    filename = os.path.join(get_conf.PROJECT + '_' + get_current_time() + '.html')
     try:
+        if not os.path.exists(path_conf.REPORT_PATH):
+            os.makedirs(path_conf.REPORT_PATH)
         result = BeautifulReport(discover)
         # theme四种用法：theme_default theme_cyan theme_candy theme_memories
         result.report(
             filename=filename,
-            description=path_conf.PROJECT_NAME + '_testreport',
+            description=get_conf.PROJECT + '_testreport',
             report_dir=path_conf.REPORT_PATH,
             theme='theme_cyan'
         )
     except Exception as e:
-        log.exception('Failed to generate test report')
+        log.error('❌ [%s] open fail, Unable to generate test report' % filename)
         raise e
     else:
-        log.info('Test report generated successfully [%s]' % filename)
         return filename

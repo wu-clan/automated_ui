@@ -4,7 +4,7 @@ import os
 
 import xlrd
 
-from po.core import path_conf
+from po.core import path_conf, get_conf
 from po.common.log import log
 
 
@@ -19,15 +19,15 @@ class DoExcel(object):
         :return:
         """
         try:
-            self.file = os.path.join(path_conf.EXCEL_PATH, filename)
+            self.file = os.path.join(path_conf.EXCEL_DATA_PATH, get_conf.PROJECT, filename)
             self.workbook = xlrd.open_workbook(self.file)
             self.sheet = self.workbook.sheet_by_name(sheet)
         except Exception as e:
-            log.error('Error: init excel file \n %s' % e)
+            log.error('❌ init excel file %s' % e)
             raise e
 
     @property
-    def read_excel(self):
+    def read_excel(self) -> dict:
         """
         读取 excel 文件
 
@@ -47,10 +47,9 @@ class DoExcel(object):
                     # key, value组合为字典
                     data = dict(zip(keys, values))
             else:
-                log.warning('Data table has no data!')
-                return data
+                raise ValueError('❌ file data table has no data!')
         except Exception as e:
-            log.error('Error: read value from excel file')
+            log.error('❌ read value from excel file')
             raise e
         else:
             return data

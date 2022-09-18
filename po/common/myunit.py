@@ -8,14 +8,11 @@ from po.common.log import log
 from po.core import get_conf
 
 
-class MyUnitTest(unittest.TestCase):
-    """
-    Ps:单元测试框架,封装基类,所有test_case继承此类,自动获得所有unittest方法
-    """
+class Unit(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
-        # 继承 unittest.TestCase 的__init__,尤为重要
-        unittest.TestCase.__init__(self, *args, **kwargs)
+        # 继承 unittest.TestCase 的__init__, 尤为重要
+        super().__init__(*args, **kwargs)
 
     @classmethod
     def setUpClass(cls):
@@ -37,7 +34,7 @@ class MyUnitTest(unittest.TestCase):
         log.info(f'----------------- Running case: {self._testMethodName} -----------------')
 
     def tearDown(self):
-        log.info('end \n')
+        log.info('end')
 
     @classmethod
     def tearDownClass(cls):

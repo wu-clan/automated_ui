@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
+from pathlib import Path
 
 from po.common.do_yaml import DoYaml
 
-__read_config = DoYaml(os.path.join(os.getcwd(), 'core'), 'config.yaml').read_yaml
+__read_config = DoYaml(os.path.join(str(Path(__file__).resolve().parent), 'conf.yaml'), depend=False).read_yaml
+
+# 测试项目
+PROJECT = __read_config['project']
 
 # 浏览器使用
 BROWSER = __read_config['browser']

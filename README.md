@@ -77,14 +77,17 @@ pip install -r requirements.txt
 
 ### 指定测试项目
 
-```text
-test_case 目录下的一级目录为项目目录, 在 conf.yaml 文件中指定 project: 项目
-```
+test_case 目录下的一级目录为项目目录, 在 conf.yaml 文件中指定 project 为一级
+目录的文件夹名即可
 
-### 如何运行:
+### 测试数据存放
+
+test_data 目录下的一级目录需要与测试项目匹配
+
+### 运行文件:
 
 ```text
-run_all.py 运行项目下所有的用例
+run_all.py 运行项目下所有的用例并生成html测试报告
 
 run_class.py 运行项目下指定测试类
 
@@ -95,9 +98,7 @@ run_thead.py 线程池运行项目下所有测试用例
 
 1. [指定测试运行程序为: Unittest](md_files/img.png)
 
-2. [运行文件鼠标右键,选择修改运行配置](md_files/img_1.png)
-
-3. [配置参数: 测试用例目录名](md_files/img_2.png)
+2. 在指定文件右键运行即可
 
 ## 🖼️ 效果图
 

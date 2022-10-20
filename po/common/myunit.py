@@ -5,7 +5,6 @@ import unittest
 from po.common.base_page import BasePage
 from po.common.driver import web_driver
 from po.common.log import log
-from po.core import get_conf
 
 
 class Unit(unittest.TestCase):
@@ -21,7 +20,7 @@ class Unit(unittest.TestCase):
 
         :return:
         """
-        cls.driver = web_driver.select_browser(get_conf.BROWSER)
+        cls.driver = web_driver.select_browser()
 
     def setUp(self):
         """

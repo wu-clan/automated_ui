@@ -10,6 +10,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import IEDriverManager, EdgeChromiumDriverManager
 
 from po.common.log import log
+from po.core import get_conf
 
 
 class WebDriver:
@@ -27,7 +28,7 @@ class WebDriver:
         self.__path = webdriver_path
 
     @property
-    def __chrome_driver(self):
+    def chrome(self):
         """
         chrome driver
 
@@ -45,7 +46,10 @@ class WebDriver:
             chrome_options.add_experimental_option("prefs", prefs)
             # 忽略日志
             chrome_options.add_experimental_option("excludeSwitches", ['enable-automation', 'enable-logging'])
-            driver = webdriver.Chrome(ChromeDriverManager(path=self.__path).install(), options=chrome_options)
+            driver = webdriver.Chrome(
+                executable_path=ChromeDriverManager(path=self.__path).install(),
+                options=chrome_options
+            )
             driver.maximize_window()
         except Exception as e:
             log.error('❌ Error calling google chrome')
@@ -55,14 +59,14 @@ class WebDriver:
             return driver
 
     @property
-    def __edge_driver(self):
+    def edge(self):
         """
         edge driver
 
         :return:
         """
         try:
-            driver = webdriver.Edge(EdgeChromiumDriverManager(path=self.__path).install())
+            driver = webdriver.Edge(executable_path=EdgeChromiumDriverManager(path=self.__path).install())
             driver.maximize_window()
         except Exception as e:
             log.error('❌ Error calling edge browser')
@@ -72,7 +76,7 @@ class WebDriver:
             return driver
 
     @property
-    def __firefox_driver(self):
+    def firefox(self):
         """
         Firefox driver
 
@@ -89,14 +93,14 @@ class WebDriver:
             return driver
 
     @property
-    def __ie_driver(self):
+    def ie(self):
         """
         Ie driver
 
         :return:
         """
         try:
-            driver = webdriver.Ie(IEDriverManager(path=self.__path).install())
+            driver = webdriver.Ie(executable_path=IEDriverManager(path=self.__path).install())
             driver.maximize_window()
         except Exception as e:
             log.error('❌ Error calling ie browser')
@@ -105,24 +109,18 @@ class WebDriver:
             log.info('IE driver use success')
             return driver
 
-    def select_browser(self, browser='chrome'):
+    def select_browser(self):
         """
         浏览器驱动选择
 
-        :param browser:
         :return:
         """
-        if browser.lower() == "chrome":
-            return self.__chrome_driver
-        elif browser.lower() == 'edge':
-            return self.__edge_driver
-        elif browser.lower() == "firefox":
-            return self.__firefox_driver
-        elif browser.lower() == "ie":
-            return self.__ie_driver
-        else:
-            raise ValueError(
-                '❌ wrong browser selection, please check, only allow one of: chrome, firefox, edge, ie'
+        driver = str(get_conf.BROWSER).lower()
+        try:
+            return getattr(self, driver)
+        except Exception:
+            raise AttributeError(
+                f'❌ wrong browser selection, please check, only allow one of: chrome, firefox, edge, ie'
             )
 
 

@@ -5,7 +5,7 @@ import unittest
 from po.test_case.baidu.test_baidu import BaiDu
 
 
-class RunTcFunc:
+class TcFuncRunner:
 
     def __init__(self):
         self.suite = unittest.TestSuite()
@@ -24,5 +24,5 @@ class RunTcFunc:
 
 
 if __name__ == '__main__':
-    func_runner = RunTcFunc()
+    func_runner = TcFuncRunner()
     func_runner.run(BaiDu('test_baidu_pass'))

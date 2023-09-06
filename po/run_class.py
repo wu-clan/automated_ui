@@ -5,29 +5,29 @@ import unittest
 from po.test_case.baidu.test_baidu import BaiDu
 
 
-class RunTcClass(object):
+class TcClassRunner:
 
     def __init__(self):
-        self.suites = unittest.TestLoader()
-        self.suit = unittest.TestSuite()
+        self.loader = unittest.TestLoader()
+        self.suite = unittest.TestSuite()
 
-    def run(self, testcase_class, verbosity=2):
+    def run(self, testcase_class, verbosity=1):
         """
-        :param testcase_class: 引入的类名
+        :param testcase_class: 测试用例类
         :param verbosity:
         """
         if isinstance(testcase_class, list):
-            for _ in testcase_class:
-                suites = self.suites.loadTestsFromTestCase(_)
-                self.suit.addTest(suites)
+            for i in testcase_class:
+                test = self.loader.loadTestsFromTestCase(i)
+                self.suite.addTest(test)
         else:
-            suites = self.suites.loadTestsFromTestCase(testcase_class)
-            self.suit.addTest(suites)
+            test = self.loader.loadTestsFromTestCase(testcase_class)
+            self.suite.addTest(test)
 
         runner = unittest.TextTestRunner(verbosity=verbosity)
-        runner.run(suite_tc.suit)
+        runner.run(self.suite)
 
 
 if __name__ == '__main__':
-    suite_tc = RunTcClass()
-    suite_tc.run(BaiDu)
+    crunner = TcClassRunner()
+    crunner.run(BaiDu)

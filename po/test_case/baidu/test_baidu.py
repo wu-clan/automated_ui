@@ -16,13 +16,13 @@ class BaiDu(BaiDuPage):
 
     def test_baidu_fail(self):
         """ 失败用例 """
-        ele = ['xpath', self.yaml_data['baidu_button']]
+        ele = ['xpath', self.search_btn]
         result = self.is_element_exist(ele)
         if not result:
             self.save_screenshot('test_fail.png')
-        self.assertTrue(result, '未找到元素 %s' % ele)
+        self.assertTrue(result, '元素不存在')
 
-    @unittest.skip('强制跳过')
+    @unittest.skip
     def test_baidu_skip(self):
         """ 跳过用例 """
         self.send_keys(self.source, '测试')

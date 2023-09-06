@@ -1,2 +1,4 @@
 # 百度搜索按钮
-baidu_button: su
+baidu_button:
+  by: id
+  element: su

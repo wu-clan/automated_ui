@@ -5,7 +5,7 @@ from pathlib import Path
 
 from po.common.do_yaml import DoYaml
 
-__read_config = DoYaml(os.path.join(str(Path(__file__).resolve().parent), 'conf.yaml'), depend=False).read_yaml
+__read_config = DoYaml(filename=os.path.join(str(Path(__file__).resolve().parent), 'conf.yaml')).read_yaml()
 
 # 测试项目
 PROJECT = __read_config['project']
@@ -33,5 +33,6 @@ EMAIL_SEND_TO = __read_config['email']['send_to']
 EMAIL_SSL = __read_config['email']['is_ssl']
 
 # 测试报告配置
+REPORT_STYLE = __read_config['test_report']['style']
 REPORT_TESTER = __read_config['test_report']['tester']
 REPORT_DESCRIPTION = __read_config['test_report']['description']

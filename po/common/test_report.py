@@ -24,7 +24,7 @@ def html_report():
             os.makedirs(path_conf.REPORT_PATH)
         fp = open(filename, 'wb')
     except Exception as e:
-        log.error('❌ [%s] open fail, Unable to generate test report' % filename)
+        log.error(f'❌ The HTMLTestRunner test report failed to generate: {e}')
         raise e
     else:
         runner = HTMLTestRunner(
@@ -35,10 +35,10 @@ def html_report():
             description=get_conf.REPORT_DESCRIPTION,
             language='zh-CN'
         )
-        return runner, fp, filename
+        return runner, filename
 
 
-def add_testcase(testcase_path=os.path.join(path_conf.TESTCASE_PATH, get_conf.PROJECT), rule='test_*.py'):
+def add_testcase(testcase_path=os.path.join(path_conf.TESTCASE_PATH, get_conf.PROJECT), rule='test_*.py'):  # noqa: E501
     """
     添加测试用例
 
@@ -50,19 +50,19 @@ def add_testcase(testcase_path=os.path.join(path_conf.TESTCASE_PATH, get_conf.PR
     return discover
 
 
-def btf_report(discover):
+def btf_report(suites):
     """
     BeautifulReport 实现测试报告
 
-    :param discover: 测试套件
+    :param suites: 测试套件
     :return:
     """
     filename = os.path.join(get_conf.PROJECT + '_' + get_current_time() + '.html')
     try:
         if not os.path.exists(path_conf.REPORT_PATH):
             os.makedirs(path_conf.REPORT_PATH)
-        result = BeautifulReport(discover)
-        # theme四种用法：theme_default theme_cyan theme_candy theme_memories
+        result = BeautifulReport(suites)
+        # theme支持：theme_default theme_cyan theme_candy theme_memories
         result.report(
             filename=filename,
             description=get_conf.PROJECT + '_testreport',
@@ -70,7 +70,7 @@ def btf_report(discover):
             theme='theme_cyan'
         )
     except Exception as e:
-        log.error('❌ [%s] open fail, Unable to generate test report' % filename)
+        log.error(f'❌ The BeautifulReport test report failed to generate: {e}')
         raise e
     else:
         return filename

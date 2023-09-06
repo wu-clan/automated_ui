@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 import os
 
-import xlrd
+from pylightxl import readxl
 
-from po.core import path_conf, get_conf
 from po.common.log import log
+from po.core import path_conf, get_conf
 
 
 class DoExcel(object):
 
-    def __init__(self, filename='...', sheet='Sheet1'):
+    def __init__(self, filename=..., sheet='Sheet1'):
         """
         初始化 excel 文件
 
@@ -20,42 +20,31 @@ class DoExcel(object):
         """
         try:
             self.file = os.path.join(path_conf.EXCEL_DATA_PATH, get_conf.PROJECT, filename)
-            self.workbook = xlrd.open_workbook(self.file)
-            self.sheet = self.workbook.sheet_by_name(sheet)
+            self.workbook = readxl(fn=self.file)
+            self.sheet = self.workbook.ws(ws=sheet)
         except Exception as e:
-            log.error('❌ init excel file %s' % e)
+            log.error(f'❌ Init excel file error: {e}')
             raise e
 
-    @property
     def read_excel(self) -> dict:
         """
-        读取 excel 文件
+        读取 excel 元素文件
 
-        :return:
+        :return: {variable_name: element, ...}
         """
-        data = None
+        data: dict = {}
         try:
-            # 获取总行,列数
-            rows = self.sheet.nrows
-            cols = self.sheet.ncols
-            if rows > 1:
-                # 获取表格中的第二列数据, 应为变量名
-                keys = self.sheet.col_values(1, 1)
-                values = self.sheet.col_values(3, 1)
-                # 获取文档剩下所有内容
-                for _ in range(1, cols):
-                    # key, value组合为字典
-                    data = dict(zip(keys, values))
+            row = self.sheet.maxrow
+            if row > 0:
+                col2value = self.sheet.col(col=2)
+                if len(col2value) != len(set(col2value)):
+                    raise ValueError('❌ There are duplicates in Excel variable names')
+                for i in range(1, row):
+                    data.update({self.sheet.index(row=i + 1, col=2): self.sheet.index(row=i + 1, col=4)})  # noqa: E501
             else:
-                raise ValueError('❌ file data table has no data!')
+                raise ValueError('❌ Excel data is empty')
         except Exception as e:
-            log.error('❌ read value from excel file')
+            log.error(f'❌ Read excel file error: {e}')
             raise e
         else:
             return data
-
-
-if __name__ == '__main__':
-    de = DoExcel('baidu_elements.xlsx').read_excel
-    print(de)
-    print(de['baidu_button'])

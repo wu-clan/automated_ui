@@ -1,5 +1,5 @@
 # 测试项目
-project: baidu
+project: 'baidu'
 # 浏览器选选择
 browser: 'chrome'
 # 测试主入口
@@ -7,7 +7,7 @@ main_path: 'https://www.baidu.com/'
 # 数据库配置
 mysql:
   host: 'xxx'
-  port: 'xxx'
+  port: 0
   user: 'xxx'
   password: 'xxx'
   database: 'xxx'
@@ -15,13 +15,14 @@ mysql:
 # 邮件发送
 email:
   host_server: 'smtp.163.com'
-  port: '465'
-  user: 'xxxxxxxx@163.com'
-  password: 'xxxxxxxxxx'
-  send_to: 'xxxxxxxx'  # if more, use: [str]
+  port: 465
+  user: 'xxx@163.com'
+  password: 'xxx'
+  send_to: 'xxx'  # if more, use: [str]
   is_ssl: true
-# 测试报告展示
+# 测试报告
 test_report:
+  style: 'btf'  # htr, btf
   tester: 'wu'
   description: '框架测试'
 

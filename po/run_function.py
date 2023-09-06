@@ -5,26 +5,24 @@ import unittest
 from po.test_case.baidu.test_baidu import BaiDu
 
 
-class RunTcFunc(object):
+class RunTcFunc:
 
     def __init__(self):
         self.suite = unittest.TestSuite()
 
-    def run(self, testcase_class_func):
+    def run(self, testcase_func, verbosity=1):
         """
-        测试用例函数
-
-        :param testcase_class_func: 测试用例类函数
-        :return:
+        :param testcase_func: 测试用例函数
+        :param verbosity:
         """
-        if isinstance(testcase_class_func, list):
-            self.suite.addTests(testcase_class_func)
+        if isinstance(testcase_func, list):
+            self.suite.addTests(testcase_func)
         else:
-            self.suite.addTest(testcase_class_func)
-        runner = unittest.TextTestRunner(verbosity=2)
-        runner.run(suite_tc.suite)
+            self.suite.addTest(testcase_func)
+        runner = unittest.TextTestRunner(verbosity=verbosity)
+        runner.run(self.suite)
 
 
 if __name__ == '__main__':
-    suite_tc = RunTcFunc()
-    suite_tc.run(BaiDu('test_baidu_pass'))
+    func_runner = RunTcFunc()
+    func_runner.run(BaiDu('test_baidu_pass'))

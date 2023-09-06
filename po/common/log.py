@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import os
+import sys
 
 from loguru import logger
 
-from po.core import path_conf
+from po.core.path_conf import LOG_PATH
 
 
 class Logger:
@@ -14,23 +15,32 @@ class Logger:
         """
         :return: loguru’s logger
         """
-        # 判定文件夹
-        if not os.path.exists(path_conf.LOG_PATH):
-            os.makedirs(path_conf.LOG_PATH)
+        if not os.path.exists(LOG_PATH):
+            os.makedirs(LOG_PATH)
 
-        # 日志文件名称
-        log_file = os.path.join(path_conf.LOG_PATH, "po.log")
+        log_file = os.path.join(LOG_PATH, "ui_test.log")
 
-        # loguru日志
+        # 清除 logger 配置
+        logger.remove()
+
+        # 控制台输出
+        logger.add(
+            sys.stdout,
+            format="{time:YYYYMMDD HH:mm:ss.SSS} | <level>{level: <8}</level> | <level>{message}</level>",
+        )
+
+        # 文件输出
         logger.add(
             log_file,
+            format='<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <level>{message}</level>',
             level="DEBUG",
             rotation='00:00',
             retention="7 days",
-            encoding='utf-8',
+            encoding='utf8',
             enqueue=True,
             backtrace=True,
-            diagnose=True
+            diagnose=False,
+            catch=True,
         )
 
         return logger

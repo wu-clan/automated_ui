@@ -5,6 +5,10 @@ import os
 
 import urllib3  # noqa
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.edge.service import Service as EdgeService
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.ie.service import Service as IeService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import IEDriverManager, EdgeChromiumDriverManager
@@ -19,16 +23,8 @@ class WebDriver:
     os.environ['WDM_SSL_VERIFY'] = '0'
     urllib3.disable_warnings()
 
-    def __init__(self, webdriver_path='../webdriver'):
-        """
-        初始化驱动
-
-        :param webdriver_path: 浏览器驱动存放位置
-        """
-        self.__path = webdriver_path
-
     @property
-    def chrome(self):
+    def chrome(self) -> webdriver.Chrome:
         """
         chrome driver
 
@@ -37,76 +33,95 @@ class WebDriver:
         try:
 
             chrome_options = webdriver.ChromeOptions()
-            # 不打开浏览器页面
-            # chrome_options.add_argument('headless')
-            # 关闭显示：Chrome 正在受自动测试软件的控制配置
-            chrome_options.add_experimental_option("excludeSwitches", ['enable-automation'])
-            # 关闭提示保存密码的弹框。
-            prefs = {"credentials_enable_service": False, "profile.password_manager_enabled": False}
+            chrome_service = ChromeService(executable_path=ChromeDriverManager().install())  # noqa: E501
+
+            # Options 参数配置
+            # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
+            arguments = [
+                '--disable-extensions',  # 禁用扩展,
+                '--disable-features=Translate',  # 禁用翻译
+                '--hide-scrollbars',  # 屏幕截图中隐藏滚动条
+                '--no-first-run',  # 跳过首次运行向导
+                '--disable-background-networking',  # 禁用后台网络服务
+                '--disable-sync',  # 禁用同步到 Google 帐户
+                '--disable-features=OptimizationHints',  # 禁用优化提示
+            ]
+            for arg in arguments:
+                chrome_options.add_argument(arg)
+
+            # Options 实验选项
+            exclude_switches = [
+                'enable-automation',  # 关闭显示 “Chrome 正在受自动测试软件的控制”
+                'ignore-certificate-errors',  # 忽略证书错误
+            ]
+            prefs = {
+                "credentials_enable_service": False,  # 禁用自动填充凭据（如用户名，密码等）
+                "profile.password_manager_enabled": False,  # 禁用浏览器密码管理器功能
+            }
+            chrome_options.add_experimental_option('excludeSwitches', exclude_switches)
             chrome_options.add_experimental_option("prefs", prefs)
-            # 忽略日志
-            chrome_options.add_experimental_option("excludeSwitches", ['enable-automation', 'enable-logging'])
-            driver = webdriver.Chrome(
-                executable_path=ChromeDriverManager(path=self.__path).install(),
-                options=chrome_options
-            )
+
+            driver = webdriver.Chrome(options=chrome_options, service=chrome_service)
             driver.maximize_window()
         except Exception as e:
-            log.error('❌ Error calling google chrome')
+            log.error('❌ Google Chrome failed to start')
             raise e
         else:
-            log.info('Chrome driver use success')
+            log.info('✅ Google Chrome started successfully')
             return driver
 
     @property
-    def edge(self):
+    def edge(self) -> webdriver.Edge:
         """
         edge driver
 
         :return:
         """
         try:
-            driver = webdriver.Edge(executable_path=EdgeChromiumDriverManager(path=self.__path).install())
+            edge_service = EdgeService(executable_path=EdgeChromiumDriverManager().install())  # noqa: E501
+            driver = webdriver.Edge(service=edge_service)
             driver.maximize_window()
         except Exception as e:
-            log.error('❌ Error calling edge browser')
+            log.error('❌ Edge failed to start')
             raise e
         else:
-            log.info('Edge driver use success')
+            log.info('✅ Edge started successfully')
             return driver
 
     @property
-    def firefox(self):
+    def firefox(self) -> webdriver.Firefox:
         """
         Firefox driver
 
         :return:
         """
         try:
-            driver = webdriver.Firefox(executable_path=GeckoDriverManager(path=self.__path).install())
+            firefox_service = FirefoxService(executable_path=GeckoDriverManager().install())  # noqa: E501
+            driver = webdriver.Firefox(service=firefox_service)
             driver.maximize_window()
         except Exception as e:
-            log.error('❌ Error calling firefox browser')
+            log.error('❌ Firefox failed to start')
             raise e
         else:
-            log.info('Firefox driver use success')
+            log.info('✅ Firefox started successfully')
             return driver
 
     @property
-    def ie(self):
+    def ie(self) -> webdriver.Ie:
         """
         Ie driver
 
         :return:
         """
         try:
-            driver = webdriver.Ie(executable_path=IEDriverManager(path=self.__path).install())
+            ie_service = IeService(executable_path=IEDriverManager().install())  # noqa: E501
+            driver = webdriver.Ie(service=ie_service)
             driver.maximize_window()
         except Exception as e:
-            log.error('❌ Error calling ie browser')
+            log.error('❌ Ie failed to start')
             raise e
         else:
-            log.info('IE driver use success')
+            log.info('✅ Ie started successfully')
             return driver
 
     def select_browser(self):
@@ -115,13 +130,15 @@ class WebDriver:
 
         :return:
         """
-        driver = str(get_conf.BROWSER).lower()
+        browser = str(get_conf.BROWSER).lower()
         try:
-            return getattr(self, driver)
+            driver = getattr(self, browser)
         except Exception:
-            raise AttributeError(
-                f'❌ wrong browser selection, please check, only allow one of: chrome, firefox, edge, ie'
+            raise ValueError(
+                '❌ wrong browser selection, please check, only allow one of: ["chrome", "firefox", "edge", ”ie“]'
             )
+        log.info('')  # 预留空行
+        return driver
 
 
 web_driver = WebDriver()

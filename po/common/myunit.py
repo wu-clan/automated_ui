@@ -10,7 +10,6 @@ from po.common.log import log
 class Unit(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
-        # 继承 unittest.TestCase 的__init__, 尤为重要
         super().__init__(*args, **kwargs)
 
     @classmethod
@@ -20,6 +19,7 @@ class Unit(unittest.TestCase):
 
         :return:
         """
+        log.info('🚀 START')
         cls.driver = web_driver.select_browser()
 
     def setUp(self):
@@ -30,11 +30,13 @@ class Unit(unittest.TestCase):
         """
         self.open = BasePage(self.driver)
         self.open.open()
-        log.info(f'----------------- Running case: {self._testMethodName} -----------------')
+        log.info(f'🔥 Running case: {self._testMethodName}')
 
     def tearDown(self):
-        log.info('end')
+        log.info('🔚 End')
+        log.info('')  # 预留空行
 
     @classmethod
     def tearDownClass(cls):
+        log.info('🏁 FINISH')
         cls().driver.quit()

@@ -13,8 +13,7 @@ if __name__ == '__main__':
 
         elif REPORT_STYLE == 'htr':
             # HTMLTestRunner 测试报告
-            runner, filename = html_report()
-            runner.run(test_suite)
+            filename = html_report(test_suite)
         else:
             raise ValueError('❌ Conf test_report style set error')
     except Exception as e:

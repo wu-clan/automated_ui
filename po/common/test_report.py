@@ -11,10 +11,11 @@ from po.core import path_conf, get_conf
 from po.utils.time_control import get_current_time
 
 
-def html_report():
+def html_report(suites):
     """
     HTMLTestRunner 实现的测试报告
 
+    :param suites: 测试套件
     :return:
     """
 
@@ -22,20 +23,21 @@ def html_report():
     try:
         if not os.path.exists(path_conf.REPORT_PATH):
             os.makedirs(path_conf.REPORT_PATH)
-        fp = open(filename, 'wb')
+        with open(filename, 'wb') as fp:
+            runner = HTMLTestRunner(
+                stream=fp,
+                title=get_conf.PROJECT + '_testreport',
+                verbosity=2,
+                tester=get_conf.REPORT_TESTER,
+                description=get_conf.REPORT_DESCRIPTION,
+                language='zh-CN'
+            )
+            runner.run(suites)
     except Exception as e:
         log.error(f'❌ The HTMLTestRunner test report failed to generate: {e}')
         raise e
     else:
-        runner = HTMLTestRunner(
-            stream=fp,
-            title=get_conf.PROJECT + '_testreport',
-            verbosity=2,
-            tester=get_conf.REPORT_TESTER,
-            description=get_conf.REPORT_DESCRIPTION,
-            language='zh-CN'
-        )
-        return runner, filename
+        return filename
 
 
 def add_testcase(testcase_path=os.path.join(path_conf.TESTCASE_PATH, get_conf.PROJECT), rule='test_*.py'):  # noqa: E501

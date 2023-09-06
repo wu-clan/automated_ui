@@ -22,7 +22,7 @@ email:
   is_ssl: true
 # 测试报告
 test_report:
-  style: 'btf'  # htr, btf
+  style: 'htr'  # htr, btf
   tester: 'wu'
   description: '框架测试'
 
